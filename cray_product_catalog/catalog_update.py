@@ -62,7 +62,7 @@ PRODUCT_VERSION = os.environ.get("PRODUCT_VERSION").strip()  # required
 CONFIG_MAP = os.environ.get("CONFIG_MAP", "cray-product-catalog").strip()
 CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip()
 YAML_CONTENT = os.environ.get("YAML_CONTENT").strip()  # required
-SKIP_SET_ACTIVE_VERSION = bool(os.environ.get("SKIP_SET_ACTIVE_VERSION"))
+SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
 
 
@@ -170,13 +170,13 @@ def update_config_map(data, name, namespace):
             # Key with same version exists in ConfigMap
             else:
                 if (data.items() <= product_data[PRODUCT_VERSION].items()
-                        and (current_version_is_active(product_data) or SKIP_SET_ACTIVE_VERSION)):
+                        and (current_version_is_active(product_data) or not SET_ACTIVE_VERSION)):
                     LOGGER.info("ConfigMap data updates exist; Exiting.")
                     break
 
         # Patch the config map if needed
         product_data[PRODUCT_VERSION].update(data)
-        if not SKIP_SET_ACTIVE_VERSION:
+        if SET_ACTIVE_VERSION:
             set_active_version(product_data)
         config_map_data[PRODUCT] = yaml.safe_dump(
             product_data, default_flow_style=False
@@ -196,9 +196,9 @@ def main():
         CONFIG_MAP, CONFIG_MAP_NAMESPACE, PRODUCT, PRODUCT_VERSION
     )
 
-    if SKIP_SET_ACTIVE_VERSION:
+    if SET_ACTIVE_VERSION:
         LOGGER.info(
-            "Not setting %s:%s to active because SKIP_SET_ACTIVE_VERSION was set.",
+            "Setting %s:%s to active because SET_ACTIVE_VERSION was set.",
             PRODUCT, PRODUCT_VERSION
         )
 
