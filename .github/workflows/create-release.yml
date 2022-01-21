@@ -20,8 +20,7 @@ jobs:
       contents: write
 
     steps:
-      - name: print vars from build-artifacts jobs
-        run: |
+      - run: |
           echo ${{ needs.build-artifacts.outputs.semVer }}
           echo ${{ needs.build-artifacts.outputs.image-version }}
           echo ${{ needs.build-artifacts.outputs.chart-version }}
@@ -34,7 +33,6 @@ jobs:
           echo ${{ needs.build-artifacts.outputs.chart_url }}
           echo ${{ needs.build-artifacts.outputs.pymod }}
           echo ${{ needs.build-artifacts.outputs.pymod_url }}
-          echo ${{ needs.build-artifacts.outputs. }}
 
       - uses: actions/checkout@v2
       - name: Get semver tool; determine prerelease or not
