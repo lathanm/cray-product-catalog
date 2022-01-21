@@ -1,0 +1,58 @@
+# Create a new release
+name: Create Release
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+
+  # build-artifacts:
+  #   uses: Cray-HPE/cray-product-catalog/.github/workflows/build-artifacts.yml@feature/increment
+
+  create-gh-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get semver tool; determine prerelease or not
+        id: prerelease
+        run: |
+          wget -O ./semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
+          chmod +x ./semver
+          export RELEASE_VERSION=${GITHUB_REF#refs/*/v}
+          PRERELEASE=$(./semver get prerel ${RELEASE_VERSION})
+          if [[ "${PRERELEASE}" = "" ]]; then
+            echo ::set-output name=gh_prerelease::$(echo false)
+          else
+            echo ::set-output name=gh_prerelease::$(echo true)
+          fi
+
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1.10.0
+        with:
+          changelog_file: CHANGELOG.md
+          release_notes_file: release_notes
+
+      - run: |
+          cat release_notes
+
+      - uses: ncipollo/release-action@v1
+        if: steps.prerelease.outputs.gh_prerelease == 'false'
+        with:
+          generateReleaseNotes: true
+          prerelease: false
+          bodyFile: release_notes
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ncipollo/release-action@v1
+        if: steps.prerelease.outputs.gh_prerelease == 'true'
+        with:
+          generateReleaseNotes: true
+          prerelease: true
+          bodyFile: release_notes
+          token: ${{ secrets.GITHUB_TOKEN }}

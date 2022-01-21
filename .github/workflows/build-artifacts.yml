@@ -1,22 +1,4 @@
 name: Build Test Scan Publish Artifacts
-on:
-
-  push:
-    # Do not build pushes to the main/master branch, tags build prod releases
-    # Do not build release branches from historical CSM/Shasta release branches
-    branches:
-      - feature/**
-      - hotfix/**
-      - support/**
-      - develop
-      - 'release/**'
-      - '!release/csm-**'
-      - '!release/shasta-**'
-
-    # Build production releases from tags on main/master, or beta releases from
-    # release or hotfix branches.
-    tags:
-      - 'v*'
 
 # Globals
 env:
@@ -39,6 +21,38 @@ env:
 
   # Code checker variables
   SNYK_SEVERITY_THRESHOLD: high
+
+on:
+
+  push:
+    # Do not build pushes to the main/master branch, tags build prod releases
+    # Do not build release branches from historical CSM/Shasta release branches
+    branches:
+      - feature/**
+      - hotfix/**
+      - support/**
+      - develop
+      - 'release/**'
+      - '!release/csm-**'
+      - '!release/shasta-**'
+
+  # Make this a reusable workflow for the purposes of building production
+  # releases from tags on main/master, or beta releases from release or hotfix
+  # branches.
+  workflow_call:
+    outputs:
+      semVer: ${{ jobs.build-prep.outputs.semVer }}
+      image-version: ${{ jobs.build-prep.outputs.image-version }}
+      chart-version: ${{ jobs.build-prep.outputs.chart-version }}
+      py-version: ${{ jobs.build-prep.outputs.chart-version }}
+      is-stable: ${{ jobs.build-prep.outputs.is-stable }}
+      build-date-time: ${{ jobs.build-prep.outputs.build-date-time }}
+      image: ${{ jobs.publish-deploy-script.outputs.image }}
+      image_url: ${{ jobs.publish-deploy-script.outputs.image_url }}
+      chart: ${{ jobs.publish-deploy-script.outputs.chart }}
+      chart_url: ${{ jobs.publish-deploy-script.outputs.chart_url }}
+      pymod: ${{ jobs.publish-deploy-script.outputs.pymod }}
+      pymod_url: ${{ jobs.publish-deploy-script.outputs.pymod_url }}
 
 # Workflow Jobs
 jobs:
@@ -310,6 +324,13 @@ jobs:
       STABLE: ${{ needs.build-prep.outputs.is-stable }}
       CHART_VERSION: ${{ needs.build-prep.outputs.chart-version }}
       PYMOD_VERSION: ${{ needs.build-prep.outputs.py-version }}
+    outputs:
+      image: ${{ steps.vars.outputs.image }}
+      image_url: ${{ steps.vars.outputs.image_url }}
+      chart: ${{ steps.vars.outputs.chart }}
+      chart_url: ${{ steps.vars.outputs.chart_url }}
+      pymod: ${{ steps.vars.outputs.pymod }}
+      pymod_url: ${{ steps.vars.outputs.pymod_url }}
 
     steps:
       - name: Checkout repo
