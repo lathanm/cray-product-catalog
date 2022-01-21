@@ -65,7 +65,7 @@ jobs:
           template: .github/templates/release.md.tmpl
           vars: |
             releaseNotes: ${{ steps.extract-release-notes.outputs.release_notes }}
-            is-stable: "${{ needs.build-artifacts.outputs.is-stable }}"
+            isStable: "${{ needs.build-artifacts.outputs.is-stable }}"
             image: "${{ needs.build-artifacts.outputs.image }}"
             imageUrl: "${{ needs.build-artifacts.outputs.image_url }}"
             chart: "${{ needs.build-artifacts.outputs.chart }}"
