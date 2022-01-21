@@ -1,4 +1,4 @@
-name: Build Test Scan Publish Artifacts
+name: Build Artifacts
 
 # Globals
 env:
