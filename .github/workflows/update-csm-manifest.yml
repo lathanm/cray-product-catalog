@@ -36,6 +36,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: get ref for tag
+        id: get-ref-tag
+        run: |
+          echo ::set-output name=tag-ref::$(echo $(git rev-parse --verify $TAG^{commit}))
+        env:
+          TAG: ${{ github.event.inputs.version }}
+
       # Find the build that built this tag, get the artifacts.json, and pull the chart version
       - name: Wait for tag/release build to succeed and upload artifacts.json
         uses: fountainhead/action-wait-for-check@v1.0.0
@@ -43,7 +50,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: publish-deploy-script
-          ref: refs/tags/${{ github.event.inputs.version }}
+          ref: ${{ steps.get-ref-tag.outputs.tag-ref }}
 
       # - name: Wait a while for the github api to report the workflow/artifact
       #   run: |
