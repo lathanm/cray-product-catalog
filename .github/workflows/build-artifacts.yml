@@ -41,18 +41,30 @@ on:
   # branches.
   workflow_call:
     outputs:
-      semVer: ${{ jobs.build-prep.outputs.semVer }}
-      image-version: ${{ jobs.build-prep.outputs.image-version }}
-      chart-version: ${{ jobs.build-prep.outputs.chart-version }}
-      py-version: ${{ jobs.build-prep.outputs.chart-version }}
-      is-stable: ${{ jobs.build-prep.outputs.is-stable }}
-      build-date-time: ${{ jobs.build-prep.outputs.build-date-time }}
-      image: ${{ jobs.publish-deploy-script.outputs.image }}
-      image_url: ${{ jobs.publish-deploy-script.outputs.image_url }}
-      chart: ${{ jobs.publish-deploy-script.outputs.chart }}
-      chart_url: ${{ jobs.publish-deploy-script.outputs.chart_url }}
-      pymod: ${{ jobs.publish-deploy-script.outputs.pymod }}
-      pymod_url: ${{ jobs.publish-deploy-script.outputs.pymod_url }}
+      semVer:
+        value: ${{ jobs.build-prep.outputs.semVer }}
+      image-version:
+        value: ${{ jobs.build-prep.outputs.image-version }}
+      chart-version:
+        value: ${{ jobs.build-prep.outputs.chart-version }}
+      py-version:
+        value: ${{ jobs.build-prep.outputs.chart-version }}
+      is-stable:
+        value: ${{ jobs.build-prep.outputs.is-stable }}
+      build-date-time:
+        value: ${{ jobs.build-prep.outputs.build-date-time }}
+      image:
+        value: ${{ jobs.publish-deploy-script.outputs.image }}
+      image_url:
+        value: ${{ jobs.publish-deploy-script.outputs.image_url }}
+      chart:
+        value: ${{ jobs.publish-deploy-script.outputs.chart }}
+      chart_url:
+        value: ${{ jobs.publish-deploy-script.outputs.chart_url }}
+      pymod:
+        value: ${{ jobs.publish-deploy-script.outputs.pymod }}
+      pymod_url:
+        value: ${{ jobs.publish-deploy-script.outputs.pymod_url }}
 
 # Workflow Jobs
 jobs:
