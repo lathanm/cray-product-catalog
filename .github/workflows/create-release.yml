@@ -8,15 +8,34 @@ on:
 
 jobs:
 
-  # build-artifacts:
-  #   uses: Cray-HPE/cray-product-catalog/.github/workflows/build-artifacts.yml@feature/increment
+  build-artifacts:
+    # FIXME: For now, have to specify a ref for calling reusable workflows, see https://github.community/t/ref-head-in-reusable-workflows/203690/30
+    uses: Cray-HPE/cray-product-catalog/.github/workflows/build-artifacts.yml@feature/increment
 
   create-gh-release:
     runs-on: ubuntu-latest
+    needs:
+      - build-artifacts
     permissions:
       contents: write
 
     steps:
+      - name: print vars from build-artifacts jobs
+        run: |
+          echo ${{ needs.build-artifacts.outputs.semVer }}
+          echo ${{ needs.build-artifacts.outputs.image-version }}
+          echo ${{ needs.build-artifacts.outputs.chart-version }}
+          echo ${{ needs.build-artifacts.outputs.py-version }}
+          echo ${{ needs.build-artifacts.outputs.is-stable }}
+          echo ${{ needs.build-artifacts.outputs.build-date-time }}
+          echo ${{ needs.build-artifacts.outputs.image }}
+          echo ${{ needs.build-artifacts.outputs.image_url }}
+          echo ${{ needs.build-artifacts.outputs.chart }}
+          echo ${{ needs.build-artifacts.outputs.chart_url }}
+          echo ${{ needs.build-artifacts.outputs.pymod }}
+          echo ${{ needs.build-artifacts.outputs.pymod_url }}
+          echo ${{ needs.build-artifacts.outputs. }}
+
       - uses: actions/checkout@v2
       - name: Get semver tool; determine prerelease or not
         id: prerelease
