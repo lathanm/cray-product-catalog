@@ -30,9 +30,62 @@ jobs:
 
   update-csm-manifest:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v2
+
+      # Find the build that built this tag, get the artifacts.json, and pull the chart version
+      - name: Wait for tag/release build to succeed and upload artifacts.json
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: publish-deploy-script
+          ref: ${{ github.event.inputs.version }}
+
+      # - name: Wait a while for the github api to report the workflow/artifact
+      #   run: |
+      #     # Kinda expected the previous action to do this, but it doesn't always
+      #     # end up that way.
+      #     sleep 60;
+
+      - name: Download artifacts.json
+        if: steps.wait-for-build.outputs.conclusion == 'success'
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build-artifacts.yml
+          workflow_conclusion: success
+          branch: ${{ github.event.inputs.version }}
+          name: artifacts.json
+
+      - name: Read artifacts JSON in
+        id: set-json-vars
+        run: |
+          JSON=$(cat ./artifacts.json)
+          echo "::set-output name=artifacts::${JSON//'%'/'%25'}"
+
+      # Need chart version in artifacts.json!
+      # Should we getting this from the release, or from the build? Is it possible to get it from the build?
+
+      - name: Render artifacts comment template
+        if: steps.wait-for-build.outputs.conclusion == 'success'
+        uses: chuhlomin/render-template@v1.4
+        id: template
+        with:
+          template: .github/templates/pr-artifacts.md.tmpl
+          vars: |
+            deployScript: "${{ steps.scriptvar.outputs.deploy_script }}"
+            srcBranch: ${{ github.event.pull_request.head.ref }}
+            commit: ${{ github.event.pull_request.head.sha}}
+            image: "${{fromJson(steps.set-json-vars.outputs.artifacts).image}}"
+            imageUrl: "${{fromJson(steps.set-json-vars.outputs.artifacts).image_url}}"
+            chartName: "${{ env.CHART_NAME }}"
+            chart: "${{fromJson(steps.set-json-vars.outputs.artifacts).chart}}"
+            chartUrl: "${{fromJson(steps.set-json-vars.outputs.artifacts).chart_url}}"
+            pymod: "${{fromJson(steps.set-json-vars.outputs.artifacts).pymod}}"
+            pymodUrl: "${{fromJson(steps.set-json-vars.outputs.artifacts).pymod_url}}"
 
       - name: Checkout CSM repo
         uses: actions/checkout@v2
