@@ -14,6 +14,12 @@ jobs:
     uses: Cray-HPE/cray-product-catalog/.github/workflows/build-artifacts.yml@feature/increment
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      ARTIFACTORY_ALGOL60_JFROG_CLI_CONFIGURATION: ${{ secrets.ARTIFACTORY_ALGOL60_JFROG_CLI_CONFIGURATION }}
+      ARTIFACTORY_ALGOL60_USERNAME: ${{ secrets.ARTIFACTORY_ALGOL60_USERNAME }}
+      ARTIFACTORY_ALGOL60_TOKEN: ${{ secrets.ARTIFACTORY_ALGOL60_TOKEN }}
+      COSIGN_GCP_PROJECT_ID: ${{ secrets.COSIGN_GCP_PROJECT_ID }}
+      COSIGN_GCP_SA_KEY: ${{ secrets.COSIGN_GCP_SA_KEY }}
+      COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
 
   # Create a GH release and reference the artifacts and changes
   create-gh-release:

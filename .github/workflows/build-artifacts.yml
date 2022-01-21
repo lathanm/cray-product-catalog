@@ -43,6 +43,18 @@ on:
     secrets:
       SNYK_TOKEN:
         required: true
+      ARTIFACTORY_ALGOL60_JFROG_CLI_CONFIGURATION:
+        required: true
+      ARTIFACTORY_ALGOL60_USERNAME:
+        required: true
+      ARTIFACTORY_ALGOL60_TOKEN:
+        required: true
+      COSIGN_GCP_PROJECT_ID:
+        required: true
+      COSIGN_GCP_SA_KEY:
+        required: true
+      COSIGN_KEY:
+        required: true
     outputs:
       semVer:
         value: ${{ jobs.build-prep.outputs.semVer }}
