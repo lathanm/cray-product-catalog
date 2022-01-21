@@ -41,7 +41,7 @@ on:
   # branches.
   workflow_call:
     secrets:
-      snyk_token:
+      SNYK_TOKEN:
         required: true
     outputs:
       semVer:
@@ -128,7 +128,7 @@ jobs:
         uses: snyk/actions/python@master
         continue-on-error: true
         env:
-          SNYK_TOKEN: ${{ secrets.snyk_token }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=py.snyk.sarif --json-file-output=py.snyk.json --skip-unresolved=true --severity-threshold=${{ env.SNYK_SEVERITY_THRESHOLD }}
 
@@ -292,7 +292,7 @@ jobs:
         id: snyk-scan
         continue-on-error: true
         env:
-          SNYK_TOKEN: ${{ secrets.snyk_token }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ steps.buildvars.outputs.full-image }}
           args: --severity-threshold=${{ env.SNYK_SEVERITY_THRESHOLD }} --skip-unresolved=true --file=Dockerfile
