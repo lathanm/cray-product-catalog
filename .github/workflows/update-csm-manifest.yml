@@ -15,16 +15,16 @@ on:
         description: 'relative path to the CSM manifest to update'
         required: true
         default: 'manifests/sysmgmt.yaml'
-      create-pr:
-        type: boolean
-        description: 'create a pull request in the Cray-HPE/csm repo'
-        required: true
-        default: true
-      create-pr-draft:
-        type: boolean
-        description: 'make the pull request a draft PR'
-        required: false
-        default: true
+      # create-pr:
+      #   type: boolean
+      #   description: 'create a pull request in the Cray-HPE/csm repo'
+      #   required: true
+      #   default: true
+      # create-pr-draft:
+      #   type: boolean
+      #   description: 'make the pull request a draft PR'
+      #   required: false
+      #   default: true
 
 jobs:
 
@@ -39,26 +39,27 @@ jobs:
         with:
           repository: Cray-HPE/csm
           path: './csm'
-          ref: ${{ inputs.csm-branch }}
+          ref: ${{ github.event.inputs.csm-branch }}
 
       - name: Update manifest helm chart version
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = "strenv(VERSION)")' ./csm/manifests/sysmgmt.yaml
+          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = "strenv(VERSION)")' ${{ env.MANIFEST }}
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ github.event.inputs.version }}
+          MANIFEST: "./csm/${{ github.event.inputs.csm-manifest-path }}"
 
       - name: Review Manifest File
         run: |
-          cat ./csm/${{ inputs.csm-manifest-file }}
+          cat ./csm/${{ github.event.inputs.csm-manifest-file }}
 
       - uses: EndBug/add-and-commit@v8
         with:
-          message: "Update manifest for ${{ github.repository }} release version: ${{ inputs.version }}"
-          add: "${{ inputs.csm-manifest-path }}"
+          message: "Update manifest for ${{ github.repository }} release version: ${{ github.event.inputs.version }}"
+          add: "${{ github.event.inputs.csm-manifest-path }}"
           cwd: './csm/'
           pathspec_error_handling: exitImmediately
           push: true
-          new_branch: cray-product-catalog/release-${{ inputs.version }}
+          new_branch: cray-product-catalog/release-${{ github.event.inputs.version }}
           committer_name: github-actions[bot]
           committer_email: noreply@github.com
