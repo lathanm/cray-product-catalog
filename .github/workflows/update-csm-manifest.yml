@@ -44,9 +44,9 @@ jobs:
       - name: Update manifest helm chart version
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = "strenv(VERSION)")' ./csm/${{ github.event.inputs.csm-manifest-path }}
+          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = strenv(VERSION))' ./csm/${{ github.event.inputs.csm-manifest-path }}
         env:
-          VERSION: ${{ github.event.inputs.version }}
+          VERSION: "${{ github.event.inputs.version }}"
 
       - name: Review Manifest File
         run: |
