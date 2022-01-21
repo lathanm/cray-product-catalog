@@ -45,41 +45,48 @@ jobs:
           echo ${{ needs.build-artifacts.outputs.pymod_url }}
 
       - uses: actions/checkout@v2
-      - name: Get semver tool; determine prerelease or not
-        id: prerelease
-        run: |
-          wget -O ./semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
-          chmod +x ./semver
-          export RELEASE_VERSION=${GITHUB_REF#refs/*/v}
-          PRERELEASE=$(./semver get prerel ${RELEASE_VERSION})
-          if [[ "${PRERELEASE}" = "" ]]; then
-            echo ::set-output name=gh_prerelease::$(echo false)
-          else
-            echo ::set-output name=gh_prerelease::$(echo true)
-          fi
 
+      # This action assumes that the release notes are the second header in the
+      # Keep a Changelog format, which skips the "Unreleased" section. Therefore,
+      # it will not work for prereleases where a new section has not been created
+      # like alpha releases on the develop branch, or one-off releases from
+      # feature branches
       - name: Extract release notes
+        if: needs.build-artifacts.outputs.is-stable == 'stable'
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1.10.0
         with:
           changelog_file: CHANGELOG.md
-          release_notes_file: release_notes
 
-      - run: |
-          cat release_notes
+      - name: Render release template
+        uses: chuhlomin/render-template@v1.4
+        id: template
+        with:
+          template: .github/templates/release.md.tmpl
+          vars: |
+            releaseNotes: ${{ steps.extract-release-notes.outputs.release_notes }}
+            is-stable: "${{ needs.build-artifacts.outputs.is-stable }}"
+            image: "${{ needs.build-artifacts.outputs.image }}"
+            imageUrl: "${{ needs.build-artifacts.outputs.image_url }}"
+            chart: "${{ needs.build-artifacts.outputs.chart }}"
+            chartUrl: "${{ needs.build-artifacts.outputs.chart_url }}"
+            pymod: "${{ needs.build-artifacts.outputs.pymod }}"
+            pymodUrl: "${{ needs.build-artifacts.outputs.pymod_url }}"
+            runUrl: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            runID: ${{ github.run_id }}
 
       - uses: ncipollo/release-action@v1
-        if: steps.prerelease.outputs.gh_prerelease == 'false'
+        if: needs.build-artifacts.outputs.is-stable == 'stable'
         with:
           generateReleaseNotes: true
           prerelease: false
-          bodyFile: release_notes
+          body: ${{ steps.template.outputs.result }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: ncipollo/release-action@v1
-        if: steps.prerelease.outputs.gh_prerelease == 'true'
+        if: needs.build-artifacts.outputs.is-stable == 'unstable'
         with:
           generateReleaseNotes: true
           prerelease: true
-          bodyFile: release_notes
+          body: ${{ steps.template.outputs.result }}
           token: ${{ secrets.GITHUB_TOKEN }}
