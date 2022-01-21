@@ -51,9 +51,7 @@ jobs:
 
       - name: Review Manifest File
         run: |
-          cat ./csm/${{ env.MANIFEST }}
-        env:
-          MANIFEST: ${{ github.event.inputs.csm-manifest-file }}
+          cat ./csm/${{ github.event.inputs.csm-manifest-file }}
 
       - uses: EndBug/add-and-commit@v8
         with:
