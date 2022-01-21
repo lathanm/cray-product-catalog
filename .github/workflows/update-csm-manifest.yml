@@ -50,7 +50,7 @@ jobs:
 
       - name: Review Manifest File
         run: |
-          cat ./csm/${{ github.event.inputs.csm-manifest-oath }}
+          cat ./csm/${{ github.event.inputs.csm-manifest-path }}
 
       - uses: EndBug/add-and-commit@v8
         with:
