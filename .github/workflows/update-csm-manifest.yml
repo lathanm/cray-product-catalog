@@ -43,7 +43,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: publish-deploy-script
-          ref: ${{ github.event.inputs.version }}
+          ref: refs/tags/${{ github.event.inputs.version }}
 
       # - name: Wait a while for the github api to report the workflow/artifact
       #   run: |
