@@ -44,7 +44,7 @@ jobs:
       - name: Update manifest helm chart version
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = "strenv(VERSION)")' strenv(MANIFEST_PATH)
+          cmd: yq eval --inplace 'with(.spec.charts[] | select(.name == "cray-product-catalog") ; .version = "strenv(VERSION)")' ${{ env.MANIFEST_PATH }}
         env:
           VERSION: ${{ inputs.version }}
           MANIFEST_PATH: ./csm/${{ inputs.csm-manifest-path }}
