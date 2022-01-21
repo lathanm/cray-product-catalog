@@ -12,6 +12,8 @@ jobs:
   build-artifacts:
     # FIXME: For now, have to specify a ref for calling reusable workflows, see https://github.community/t/ref-head-in-reusable-workflows/203690/30
     uses: Cray-HPE/cray-product-catalog/.github/workflows/build-artifacts.yml@feature/increment
+    with:
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
 
   # Create a GH release and reference the artifacts and changes
   create-gh-release:

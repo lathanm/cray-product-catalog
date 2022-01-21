@@ -42,7 +42,6 @@ on:
   workflow_call:
     secrets:
       snyk_token:
-        default: ${{ secrets.SNYK_TOKEN }}
         required: true
     outputs:
       semVer:
