@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
 
+- Draft Update CSM manifest workflow
+- Draft release workflow to build artifacts and create releases on tags
+
+### Changed
+
+- Build artifacts workflow is now reusable, no longer builds tags
+ 
 ## [1.4.13] - 2022-01-20
 
-## Added
+### Added
 
 - Add changelog checker workflow
 
@@ -20,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.11] - 2022-01-19
 
-## Added
+### Added
 
 -   Added workflows for finishing gitflow release and merging back to develop
 

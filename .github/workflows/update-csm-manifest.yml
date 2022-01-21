@@ -5,10 +5,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'version to update CSM manifest:'
+        description: 'version to update CSM manifest'
         required: true
       csm-branch:
-        description: 'version in the Cray-HPE/csm repo to update'
+        description: 'branch in the Cray-HPE/csm repo to update'
         required: true
         default: 'main'
       csm-manifest-path:
