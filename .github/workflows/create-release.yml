@@ -54,7 +54,7 @@ jobs:
       - name: Extract release notes
         if: needs.build-artifacts.outputs.is-stable == 'stable'
         id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1.10.0
+        uses: ffurrer2/extract-release-notes@v1.11.0
         with:
           changelog_file: CHANGELOG.md
 
