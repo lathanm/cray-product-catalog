@@ -76,8 +76,10 @@ jobs:
             runUrl: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             runID: ${{ github.run_id }}
 
+      - run: |
+          sleep 30;
+
       - name: Download artifacts.json
-        if: steps.wait-for-build.outputs.conclusion == 'success'
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: build-artifacts.yml
