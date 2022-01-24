@@ -38,11 +38,13 @@ jobs:
         with:
           ref: ${{ github.event.inputs.version }}
 
-      - name: Get release
+      - Find the github release associated with this version
+        uses: cardinalby/git-get-release-action@v1.1
         id: get-release
-        uses: bruceadams/get-release@v1.2.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: ${{ github.event.inputs.version }}  
 
       - run: |
           echo release upload_url is ${{ steps.get-release.outputs.upload_url }}
