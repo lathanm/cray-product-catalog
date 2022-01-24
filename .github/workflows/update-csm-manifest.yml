@@ -38,7 +38,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.version }}
 
-      - Find the github release associated with this version
+      - name: Find the github release associated with this version
         uses: cardinalby/git-get-release-action@v1.1
         id: get-release
         env:
