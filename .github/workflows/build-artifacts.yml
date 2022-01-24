@@ -56,6 +56,8 @@ on:
       COSIGN_KEY:
         required: true
     outputs:
+      run-id:
+        value: ${{ jobs.publish-deploy-script.outputs.run-id }}
       semVer:
         value: ${{ jobs.build-prep.outputs.semVer }}
       image-version:
@@ -352,6 +354,7 @@ jobs:
       CHART_VERSION: ${{ needs.build-prep.outputs.chart-version }}
       PYMOD_VERSION: ${{ needs.build-prep.outputs.py-version }}
     outputs:
+      run-id: ${{ github.run_id }}
       image: ${{ steps.vars.outputs.image }}
       image_tag: ${{ steps.vars.outputs.image_tag }}
       image_url: ${{ steps.vars.outputs.image_url }}
@@ -404,7 +407,7 @@ jobs:
         with:
           name: deploy-script.sh
           path: deploy-script.sh
-          retention-days: 30
+          retention-days: 90
 
       - name: Capture the artifactory locations of the build artifacts
         uses: schdck/create-env-json@v1
@@ -424,7 +427,7 @@ jobs:
         with:
           name: artifacts.json
           path: artifacts.json
-          retention-days: 30
+          retention-days: 90
 
   sign-image-sbom:
     runs-on: ubuntu-latest
