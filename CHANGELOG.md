@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Remove redundant license/copyright info from README
+
 ## [1.4.23] - 2022-01-27
 
 ### Changed
