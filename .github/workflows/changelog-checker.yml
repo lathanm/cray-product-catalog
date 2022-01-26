@@ -22,12 +22,14 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 name: Changelog Checker
 on:
-  pull_request: 
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 # Workflow Jobs
 jobs:
   check-changelog:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'gitflow-maintenance dependabot')"
     steps:
       - uses: actions/checkout@v2
         with:

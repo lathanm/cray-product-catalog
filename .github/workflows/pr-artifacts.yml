@@ -23,18 +23,16 @@
 name: Add artifact information to PR
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 # Globals
 env:
-
-  # Package/artifact names
-  IMAGE_NAME: cray-product-catalog-update
   CHART_NAME: cray-product-catalog
-  PYMOD_NAME: cray-product-catalog
 
 # Workflow Jobs
 jobs:
   wait-for-deploy-script:
+    if: "!contains(github.event.pull_request.labels.*.name, 'gitflow-maintenance dependabot')"
     runs-on: ubuntu-latest
     outputs:
       conclusion: ${{ steps.wait-for-build.outputs.conclusion }}
@@ -59,7 +57,7 @@ jobs:
 
   update-pr-with-artifacts:
     runs-on: ubuntu-latest
-    if: needs.wait-for-deploy-script.outputs.conclusion != 'timed_out'
+    if: "needs.wait-for-deploy-script.outputs.conclusion != 'timed_out' && !contains(github.event.pull_request.labels.*.name, 'gitflow-maintenance dependabot')"
     needs:
       - wait-for-deploy-script
 

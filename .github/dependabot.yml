@@ -8,9 +8,9 @@ updates:
     assignees:
       - "Cray-HPE/CMS-core-product-support"
     labels:
-      - "github-actions"
-      - "dependencies"
-    open-pull-requests-limit: 1
+      - "github-actions-deps"
+      - "dependabot"
+    open-pull-requests-limit: 3
 
   - package-ecosystem: "pip"
     directory: "/"
@@ -19,6 +19,6 @@ updates:
     assignees:
       - "Cray-HPE/CMS-core-product-support"
     labels:
-      - "github-actions"
-      - "dependencies"
-    open-pull-requests-limit: 1
+      - "python-deps"
+      - "dependabot"
+    open-pull-requests-limit: 3

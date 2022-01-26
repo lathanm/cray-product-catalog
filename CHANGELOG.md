@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Restrict the changelog and artifact pr workflows to not run on gitflow and
+  dependency update PRs
+
 ## [1.4.22] - 2022-01-27
 
 ### Changed
