@@ -139,7 +139,8 @@ CMS-core-product-support team members shouuld make a branch. Others, make a fork
 
 ## Changelog
 
-See the [CHANGELOG](CHANGELOG.md) for changes.
+See the [CHANGELOG](CHANGELOG.md) for changes. This file uses the [Keep A Changelog](https://keepachangelog.com)
+format.
 
 ## Copyright and License
 This project is copyrighted by Hewlett Packard Enterprise Development LP and is under the MIT
