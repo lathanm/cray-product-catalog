@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added reference to Keep a Changelog format to README file
+
+### Removed
 - Remove redundant license/copyright info from README
 
 ## [1.4.23] - 2022-01-27
