@@ -6,7 +6,7 @@ branches:
     mode: ContinuousDelivery
   develop:
     regex: ^develop$
-    increment: Patch
+    increment: Minor
     mode: ContinuousDeployment
   release:
     # Do not consider legacy release/[shasta,csm]-* branches as gitflow release branches
