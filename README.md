@@ -123,8 +123,10 @@ are merged.
 
 ## Contributing
 
-This repo uses [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/). 
-CMS-core-product-support team members shouuld make a branch. Others, make a fork.
+This repo uses [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/)
+and the [CSM Gitflow Development Process]( https://github.com/Cray-HPE/community/wiki/Gitflow-Development-Process).
+
+CMS-core-product-support team members should make a branch. Others, make a fork.
 
 ## Built With
 
