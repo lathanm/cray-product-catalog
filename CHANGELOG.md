@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added reference to Keep a Changelog format to README file
+- Added reference to CSM Gitflow development process to README file
 
 ### Removed
 - Remove redundant license/copyright info from README
