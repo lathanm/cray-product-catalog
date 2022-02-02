@@ -29,7 +29,10 @@ on:
 jobs:
   check-changelog:
     runs-on: ubuntu-latest
-    if: "!(contains(github.event.pull_request.labels.*.name, 'gitflow-maintenance') ||  contains(github.event.pull_request.labels.*.name, 'dependabot'))"
+    if: "!(
+      contains(github.event.pull_request.labels.*.name, 'gitflow-maintenance') || 
+      contains(github.event.pull_request.labels.*.name, 'dependabot')
+      )"
     steps:
 
       - uses: actions/checkout@v2
@@ -47,6 +50,5 @@ jobs:
       - name: Ensure the changelog file has changed
         if: steps.changed-files.outputs.any_modified != 'true'
         run: |
-
           echo "Changelog has not been modified. Please add a changelog entry in accordance with https://keepachangelog.com"
           exit 1;

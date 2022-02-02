@@ -103,7 +103,7 @@ jobs:
           VERSION: "${{fromJson(steps.set-json-vars.outputs.artifacts).CHART_VERSION}}"
           CHART: ${{ env.CHART_NAME }}
 
-      - name: Debug Print Manifest File
+      - name: Print Manifest File
         run: |
           cat ./csm/manifests/sysmgmt.yaml
 
