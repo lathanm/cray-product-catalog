@@ -10,10 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - 2022-02-01
 
 ### Added
+
+- Automerge capabilities for gitflow mergeback PRs
+
+### Changed
+
+- PR title in gitflow mergeback PRs is repo-specific so including them in
+  release notes and in different repo PRs, they refer to original PRs
+
+## [1.5.0] - 2022-02-01
+
+### Added
+
 - Added reference to Keep a Changelog format to README file
 - Added reference to CSM Gitflow development process to README file
 
 ### Removed
+
 - Remove redundant license/copyright info from README
 
 ## [1.4.23] - 2022-01-27
@@ -171,7 +184,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated repo to Gitflow branching strategy; develop branch now base branch
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.1...HEAD
+
+[1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.1
 
 [1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.23...1.5.0
 

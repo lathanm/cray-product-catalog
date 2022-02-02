@@ -60,7 +60,7 @@ jobs:
           branch-suffix: timestamp
           base: develop
           delete-branch: true
-          title: "[chore] Master -> Develop from PR #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.ref }})"
+          title: "[chore] Master -> Develop from PR ${{ github.repository }}#${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.ref }})"
           signoff: true
           assignees: ${{ github.actor }}
           committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
@@ -89,3 +89,18 @@ jobs:
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v1
+        with:
+          token: ${{ steps.get-token.outputs.token }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: merge
+
+      - name: Auto approve
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.cpr.outputs.pull-request-number }}
