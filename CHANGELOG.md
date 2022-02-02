@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.5.0] - 2022-02-01
+## [1.5.2] - 2022-02-02
+
+### Removed
+
+- Autoapprove PR action for gitflow mergeback PRs
+
+## [1.5.1] - 2022-02-02
 
 ### Added
 
@@ -184,9 +190,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated repo to Gitflow branching strategy; develop branch now base branch
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.1...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.2...HEAD
 
-[1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.1
+[1.5.2]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.2
+
+[1.5.1]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.1
 
 [1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.23...1.5.0
 
