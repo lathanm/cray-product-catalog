@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use csm-changelog-checker and csm-gitflow-mergeback actions in common workflows
+
+
 ## [1.5.2] - 2022-02-02
 
 ### Removed
