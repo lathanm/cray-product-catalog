@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.3] - 2022-02-08
+
+### Changed
+
+- Use csm-changelog-checker and csm-gitflow-mergeback actions in common workflows
+
 ## [1.5.2] - 2022-02-02
 
 ### Removed
@@ -190,44 +196,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated repo to Gitflow branching strategy; develop branch now base branch
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.2...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...HEAD
 
-[1.5.2]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.2
+[1.5.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.2...v1.5.3
 
-[1.5.1]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.5.0...1.5.1
+[1.5.2]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.1...v1.5.2
 
-[1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.23...1.5.0
+[1.5.1]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.0...v1.5.1
 
-[1.4.23]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.22...1.4.23
+[1.5.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.23...v1.5.0
 
-[1.4.22]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.21...1.4.22
+[1.4.23]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.22...v1.4.23
 
-[1.4.21]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.20...1.4.21
+[1.4.22]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.21...v1.4.22
 
-[1.4.20]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.19...1.4.20
+[1.4.21]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.20...v1.4.21
 
-[1.4.19]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.18...1.4.19
+[1.4.20]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.19...v1.4.20
 
-[1.4.18]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.17...1.4.18
+[1.4.19]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.18...v1.4.19
 
-[1.4.17]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.15...1.4.17
+[1.4.18]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.17...v1.4.18
 
-[1.4.15]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.14...1.4.15
+[1.4.17]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.15..v.1.4.17
 
-[1.4.14]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.13...1.4.14
+[1.4.15]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.14...v1.4.15
 
-[1.4.13]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.12...1.4.13
+[1.4.14]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.13...v1.4.14
 
-[1.4.12]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.11...1.4.12
+[1.4.13]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.12...v1.4.13
 
-[1.4.11]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.10...1.4.11
+[1.4.12]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.11...v1.4.12
 
-[1.4.10]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.6...1.4.10
+[1.4.11]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.10...v1.4.11
 
-[1.4.6]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.5...1.4.6
+[1.4.10]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.6...v1.4.10
 
-[1.4.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.4...1.4.5
+[1.4.6]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.5...v1.4.6
 
-[1.4.4]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.3...1.4.4
+[1.4.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.4...v1.4.5
 
-[1.4.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/1.4.2...1.4.3
+[1.4.4]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.3...v1.4.4
+
+[1.4.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.4.2...v1.4.3
