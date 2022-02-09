@@ -432,7 +432,7 @@ jobs:
           retention-days: 90
 
       - name: Capture the artifactory locations of the build artifacts
-        uses: schdck/create-env-json@v1
+        uses: schdck/create-env-json@v2
         with:
           file-name: 'artifacts.json'
           image: ${{ steps.vars.outputs.image }}
