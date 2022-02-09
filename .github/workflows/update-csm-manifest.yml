@@ -55,7 +55,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.version }}
 
-      - uses: cardinalby/git-get-release-action@v1.1
+      - uses: cardinalby/git-get-release-action@1.2.1
         id: release-info
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -103,7 +103,7 @@ jobs:
           VERSION: "${{fromJson(steps.set-json-vars.outputs.artifacts).CHART_VERSION}}"
           CHART: ${{ env.CHART_NAME }}
 
-      - name: Debug Print Manifest File
+      - name: Print Manifest File
         run: |
           cat ./csm/manifests/sysmgmt.yaml
 

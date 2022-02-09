@@ -2,3 +2,6 @@
 *.egg_info
 build/
 dist/
+
+# VS Code config
+workspace.code-workspace
