@@ -55,7 +55,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.version }}
 
-      - uses: cardinalby/git-get-release-action@1.2.1
+      - uses: cardinalby/git-get-release-action@1.2.2
         id: release-info
         env:
           GITHUB_TOKEN: ${{ github.token }}
