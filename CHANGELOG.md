@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.4] - 2022-02-15
+
 ### Changed
 
 - Save build artifacts for default of 90 days
@@ -219,7 +221,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.4...HEAD
+
+[1.5.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...v1.5.4
 
 [1.5.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.2...v1.5.3
 
