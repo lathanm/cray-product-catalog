@@ -231,7 +231,7 @@ jobs:
           PYMOD_VERSION: ${{ needs.build-prep.outputs.py-version }}
 
       - name: Setup JFrog/Artifactory CLI
-        uses: jfrog/setup-jfrog-cli@v1
+        uses: jfrog/setup-jfrog-cli@v2.1.0
         env:
           JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_ALGOL60_JFROG_CLI_CONFIGURATION }}
 
@@ -255,7 +255,7 @@ jobs:
           path: |
             dist/*.tar.gz
             dist/*.whl
-          retention-days: 7
+          retention-days: 90
 
   build-scan-sign-publish-image:
     runs-on: ubuntu-latest
@@ -290,6 +290,7 @@ jobs:
           images: ${{ steps.buildvars.outputs.image-base }}
           tags: |
             type=semver,pattern={{version}},value=${{ steps.buildvars.outputs.image-tag }}
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
           labels: |
@@ -319,7 +320,7 @@ jobs:
         with:
           name: docker-image
           path: docker-image.tar.gz
-          retention-days: 7
+          retention-days: 90
 
       # Run the scanner, continue on if errors are found so the results can be
       # reported to the Github Code Scanning alerts tab
@@ -355,13 +356,16 @@ jobs:
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ secrets.ARTIFACTORY_ALGOL60_TOKEN }}
 
-      - name: Push Image to Registry
+      - name: Push Image tags to registry
         if: ${{ fromJSON(steps.snyk-result.outputs.snyk-passed) }}
-        shell: bash
-        run: 
-          docker push ${{ env.IMAGE }}
-        env:
-          IMAGE: ${{ steps.buildvars.outputs.full-image }}
+        uses: docker/build-push-action@v2
+        id: push-docker-image
+        with:
+          push: true
+          build-args: |
+            PYMOD_VERSION=${{ needs.build-prep.outputs.py-version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
   publish-deploy-script:
     runs-on: ubuntu-latest
@@ -432,7 +436,7 @@ jobs:
           retention-days: 90
 
       - name: Capture the artifactory locations of the build artifacts
-        uses: schdck/create-env-json@v1
+        uses: schdck/create-env-json@v2
         with:
           file-name: 'artifacts.json'
           image: ${{ steps.vars.outputs.image }}
@@ -553,7 +557,7 @@ jobs:
           tar -axf charts/.packaged/${{ env.CHART_NAME}}-${{ needs.build-prep.outputs.chart-version }}.tgz ${{ env.CHART_NAME }}/Chart.yaml -O
 
       - name: Setup JFrog/Artifactory CLI
-        uses: jfrog/setup-jfrog-cli@v1
+        uses: jfrog/setup-jfrog-cli@v2.1.0
         env:
           JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_ALGOL60_JFROG_CLI_CONFIGURATION }}
 
@@ -581,4 +585,4 @@ jobs:
         with:
           name: helm-chart
           path: charts/.packaged/${{ env.CHART_NAME }}-${{ needs.build-prep.outputs.chart-version }}.tgz
-          retention-days: 7
+          retention-days: 90
