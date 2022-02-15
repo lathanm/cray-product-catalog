@@ -13,6 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Push all semver docker image tags, not just the image:x.y.z-builddate.commit tag
 
+- Bump jfrog/setup-jfrog-cli from 1 to 2.1.0
+
+- Bump cardinalby/git-get-release-action from 1.1 to 1.2.2
+
+- Bump rsa from 4.7 to 4.8
+
+- Bump python-dateutil from 2.7.5 to 2.8.2
+
+
 ## [1.5.3] - 2022-02-08
 
 ### Changed
