@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Save build artifacts for default of 90 days
+
+- Push all semver docker image tags, not just the image:x.y.z-builddate.commit tag
+
 ## [1.5.3] - 2022-02-08
 
 ### Changed
@@ -35,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added reference to Keep a Changelog format to README file
+
 - Added reference to CSM Gitflow development process to README file
 
 ### Removed
@@ -47,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Restrict the changelog and artifact pr workflows to not run on gitflow and
   dependency update PRs
+
 - dependabot update python dep attrs from 21.2.0 to 21.4.0
 
 ## [1.4.22] - 2022-01-27
@@ -97,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Update CSM manifest workflow
+
 - Release workflow to build artifacts and create GH releases on tags
 
 ### Changed
@@ -115,13 +124,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.12] - 2022-01-19
 
--   Test release with only CHANGELOG updates
+- Test release with only CHANGELOG updates
 
 ## [1.4.11] - 2022-01-19
 
 ### Added
 
--   Added workflows for finishing gitflow release and merging back to develop
+- Added workflows for finishing gitflow release and merging back to develop
 
 ## [1.4.10] - 2022-01-13
 
@@ -133,7 +142,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
--   Fix the draft release PR workflow to add labels
+- Fix the draft release PR workflow to add labels
 
 ## [1.4.5] - 2022-01-07
 
@@ -170,7 +179,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Build docker image with CSM-provided build-scan-sign GH action
+
 - Add GitVersion.yml for automatic git versioning using Gitflow
+
 - Pull python requirements from PyPI, not arti.dev.cray.com to enable GH actions builds
 
 ## 1.3.1 - 2021-11-19
@@ -178,6 +189,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added pull request template
+
 - Added Chart lint, test, scan action
 
 ### Changed
@@ -189,11 +201,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Included cray-product-catalog python module
+
 - Introduce new catalog entry delete functionality
 
 ### Changed
 
 - Updated repo to Gitflow branching strategy; develop branch now base branch
+
 - Change default reviewers to CMS-core-product-support
 
 [Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...HEAD
