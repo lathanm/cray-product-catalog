@@ -362,6 +362,9 @@ jobs:
         id: push-docker-image
         with:
           push: true
+          build-args: |
+            PYMOD_VERSION=${{ needs.build-prep.outputs.py-version }}
+          cache: 
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
