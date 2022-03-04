@@ -35,7 +35,7 @@ RUN apk add --upgrade --no-cache apk-tools \
         python3-dev \
         libc-dev \
     && apk -U upgrade --no-cache \
-    && pip3 install --no-cache-dir -r requirements.txt \
+    && pip3 install --ignore-installed --no-cache-dir -r requirements.txt \
     && python3 setup.py install \
     && rm -rf /src/
 
