@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.5] - 2022-03-04
+
+### Changed
+
+- Update the image signing and software bill of materials github actions (Cray
+  HPE internal actions) to use the preferred GCP authentication.
+
+- CASMCMS-7878 - switch build artifacts workflow build-prep step to ubuntu
+  public runner per GitHub security recommendations
+
+- Update python dependencies
+
 ## [1.5.4] - 2022-02-15
 
 ### Changed
@@ -221,9 +233,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.4...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...HEAD
 
-[1.5.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...v1.5.4
+[1.5.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.4...v1.5.5
+
+[1.5.4]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.3...v1.5.4
 
 [1.5.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.2...v1.5.3
 
