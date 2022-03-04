@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CASMCMS-7878 - switch build artifacts workflow build-prep step to ubuntu
   public runner per GitHub security recommendations
 
+- Update python dependencies
+
 ## [1.5.4] - 2022-02-15
 
 ### Changed
