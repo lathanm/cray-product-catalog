@@ -398,7 +398,6 @@ jobs:
       - name: Create additional template vars
         id: vars
         run: |
-          echo ::set-output name=repo_name::$(echo ${GITHUB_REPOSITORY}_${GITHUB_REF_NAME} | sed 's|/|_|g')
           echo ::set-output name=image::$(echo ${IMAGE_NAME}:${IMAGE_TAG})
           echo ::set-output name=image_tag::$(echo ${IMAGE_TAG})
           echo ::set-output name=image_url::$(echo https://artifactory.algol60.net/ui/repos/tree/General/csm-docker%2F${STABLE}%2F${IMAGE_NAME}%2F${IMAGE_TAG})
@@ -421,7 +420,6 @@ jobs:
             fullImage: ${{ needs.build-scan-sign-publish-image.outputs.full-image }}
             imageName: ${{ env.IMAGE_NAME }}
             imageTag: ${{ env.IMAGE_TAG }}
-            zypperRepoName: ${{ steps.vars.outputs.repo_name }}
             commit: ${{ needs.build-prep.outputs.short-sha }}
             ref: ${{ github.ref_name }}
             ref_type: ${{ github.ref_type }}

@@ -126,6 +126,7 @@ jobs:
 
       - name: Render artifacts comment template
         if: needs.wait-for-deploy-script.outputs.conclusion == 'success'
+        continue-on-error: true
         uses: chuhlomin/render-template@v1.4
         id: template
         with:

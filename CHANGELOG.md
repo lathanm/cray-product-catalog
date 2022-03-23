@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update license text to comply with automatic license-check tool.
 
+- Update deploy script to work with CSM 1.2 systems and Nexus authentication
+
 ## [1.5.5] - 2022-03-04
 
 ### Changed

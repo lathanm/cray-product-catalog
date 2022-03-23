@@ -6,15 +6,17 @@
 #   repository: {{ .repository }}
 #   generator: {{ .run }}
 
-cat <<EOF > image-download-{{ .commit }}.sh
+cat << 'EOF' > image-download-{{ .commit }}.sh
 #!/usr/bin/env bash
 
-zypper addrepo https://slemaster.us.cray.com/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product {{ .zypperRepoName }}
-zypper refresh
-zypper in -y --repo {{ .zypperRepoName }} skopeo
+NEXUS_USERNAME="$(kubectl -n nexus get secret nexus-admin-credential --output json | jq -r .data.username | base64 -d)"
+NEXUS_PASSWORD="$(kubectl -n nexus get secret nexus-admin-credential --output json | jq -r .data.password | base64 -d)"
 echo "Downloading remote image {{ .fullImage }} to system registry"
-skopeo copy --dest-tls-verify=false docker://{{ .fullImage }} docker://registry.local/cray/{{ .imageName }}:{{ .imageTag }}
-zypper rr {{ .zypperRepoName }}
+podman run --rm --network host quay.io/skopeo/stable copy --src-tls-verify=false --dest-tls-verify=false \
+    docker://{{ .fullImage }} \
+    docker://registry.local/{{ .fullImage }} \
+    --dest-username "${NEXUS_USERNAME}"  \
+    --dest-password "${NEXUS_PASSWORD}"
 EOF
 
 cat <<EOF > manifest.raw.{{ .commit }}.yaml
