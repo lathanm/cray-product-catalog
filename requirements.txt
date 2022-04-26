@@ -3,3 +3,4 @@
 jsonschema
 kubernetes
 pyyaml
+urllib3
