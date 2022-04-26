@@ -20,14 +20,10 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# Defines utility functions used by other modules.
+# Defines constants used when querying the product catalog.
 
-from kubernetes import config
-
-
-def load_k8s():
-    """ Load Kubernetes Configuration """
-    try:
-        config.load_incluster_config()
-    except Exception:
-        config.load_kube_config()
+PRODUCT_CATALOG_CONFIG_MAP_NAME = 'cray-product-catalog'
+PRODUCT_CATALOG_CONFIG_MAP_NAMESPACE = 'services'
+COMPONENT_VERSIONS_PRODUCT_MAP_KEY = 'component_versions'
+COMPONENT_REPOS_KEY = 'repositories'
+COMPONENT_DOCKER_KEY = 'docker'
