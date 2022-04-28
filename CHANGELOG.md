@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
 - Update license text to comply with automatic license-check tool.
 
 - Update deploy script to work with CSM 1.2 systems and Nexus authentication
+
+### Fixed
+
+- Fixed location where Python module and Helm chart are published to
+  Artifactory by "Build Artifacts" GitHub Actions workflow.
 
 ## [1.5.5] - 2022-03-04
 
