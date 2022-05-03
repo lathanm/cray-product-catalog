@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Relaxed schema for product data added to `cray-product-catalog` K8s ConfigMap
+  to allow additional properties.
+
 - Update base image to artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:3.15
 
 - Update license text to comply with automatic license-check tool.

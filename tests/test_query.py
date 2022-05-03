@@ -112,7 +112,7 @@ class TestProductCatalog(unittest.TestCase):
     def test_create_product_catalog_invalid_product_schema(self):
         """Test creating a ProductCatalog when an entry contains valid YAML but does not match schema."""
         self.mock_k8s_api.read_namespaced_config_map.return_value = Mock(data={
-            'sat': safe_dump({'2.1': {'this_key_is_not_allowed': {}}})
+            'sat': safe_dump({'2.1': {'component_versions': {'docker': 'should be an array'}}})
         })
         with self.assertLogs(level=logging.DEBUG) as logs_cm:
             product_catalog = self.create_and_assert_product_catalog()
