@@ -21,7 +21,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-FROM artifactory.algol60.net/docker.io/alpine:3.13 as base
+FROM artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:3.15 as base
 RUN apk add --no-cache py3-pip python3
 ARG PYMOD_VERSION=0.0.0
 
