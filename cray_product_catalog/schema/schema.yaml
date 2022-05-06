@@ -31,7 +31,6 @@ description: >
   A schema that describes the structure of product catalog config map data
   for a particular product version.
 type: object
-additionalProperties: false
 minItems: 1
 properties:
   active:
@@ -43,13 +42,8 @@ properties:
     type: object
     oneOf:
       - description: >
-          A basic mapping of component name to version. This format is deprecated.
-        additionalProperties:
-          type: string
-      - description: >
           A mapping of component types to components of that type provided by a
           given version of the product.
-        additionalProperties: false
         properties:
           docker:
             $ref: '#/definitions/ComponentVersions'
@@ -66,7 +60,6 @@ properties:
   configuration:
     description: The data regarding this version's configuration
     type: object
-    additionalProperties: false
     properties:
       clone_url:
         description: The HTTP URL of the configuration content's git repository.
@@ -105,7 +98,6 @@ definitions:
         - version
       description: A component with a name and version.
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -123,7 +115,6 @@ definitions:
   HostedRepository:
     description: A hosted-type package repository.
     type: object
-    additionalProperties: false
     required:
       - name
       - type
@@ -139,7 +130,6 @@ definitions:
   GroupRepository:
     description: A group-type package repository.
     type: object
-    additionalProperties: false
     required:
       - name
       - members

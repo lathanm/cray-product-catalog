@@ -46,11 +46,13 @@ import time
 import urllib3
 from urllib3.util.retry import Retry
 
-from kubernetes import client, config
+from kubernetes import client
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.configuration import Configuration
 from kubernetes.client.rest import ApiException
 import yaml
+
+from cray_product_catalog.util import load_k8s
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -60,14 +62,6 @@ LOGGER.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
 LOGGER.addHandler(handler)
-
-
-def load_k8s():
-    """ Load Kubernetes Configuration """
-    try:
-        config.load_incluster_config()
-    except Exception:
-        config.load_kube_config()
 
 
 def modify_config_map(name, namespace, product, product_version, key=None):

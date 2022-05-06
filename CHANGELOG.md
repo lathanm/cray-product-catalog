@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added new `query` module to query the `cray-product-catalog` K8s ConfigMap to
+  obtain information about the installed products.
+
 ### Changed
+
+- Relaxed schema for product data added to `cray-product-catalog` K8s ConfigMap
+  to allow additional properties.
 
 - Update base image to artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:3.15
 
