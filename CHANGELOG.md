@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2022-05-09
+
 ### Added
 
 - Added new `query` module to query the `cray-product-catalog` K8s ConfigMap to
@@ -254,7 +256,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.6.0...HEAD
+
+[1.6.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...v1.6.0
 
 [1.5.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.4...v1.5.5
 
