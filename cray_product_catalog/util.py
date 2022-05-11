@@ -1,7 +1,6 @@
-#
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,22 +20,14 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-name: Lint, test, and scan Helm charts
-on:
-  pull_request:
-    branches:
-      - master
-      - develop
-      - release/**
-  schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch:
-jobs:
-  lint-test-scan:
-    uses: Cray-HPE/.github/.github/workflows/charts-lint-test-scan.yml@main
-    with:
-      lint-charts: ${{ github.event_name == 'pull_request' }}
-      scan-images: false
-      scan-charts: false
-    secrets:
-      snyk-token: ${{ secrets.SNYK_TOKEN }}
+# Defines utility functions used by other modules.
+
+from kubernetes import config
+
+
+def load_k8s():
+    """ Load Kubernetes Configuration """
+    try:
+        config.load_incluster_config()
+    except Exception:
+        config.load_kube_config()

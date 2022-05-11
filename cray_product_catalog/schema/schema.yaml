@@ -1,4 +1,7 @@
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -12,7 +15,7 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 # THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
@@ -28,7 +31,6 @@ description: >
   A schema that describes the structure of product catalog config map data
   for a particular product version.
 type: object
-additionalProperties: false
 minItems: 1
 properties:
   active:
@@ -40,13 +42,8 @@ properties:
     type: object
     oneOf:
       - description: >
-          A basic mapping of component name to version. This format is deprecated.
-        additionalProperties:
-          type: string
-      - description: >
           A mapping of component types to components of that type provided by a
           given version of the product.
-        additionalProperties: false
         properties:
           docker:
             $ref: '#/definitions/ComponentVersions'
@@ -63,7 +60,6 @@ properties:
   configuration:
     description: The data regarding this version's configuration
     type: object
-    additionalProperties: false
     properties:
       clone_url:
         description: The HTTP URL of the configuration content's git repository.
@@ -102,7 +98,6 @@ definitions:
         - version
       description: A component with a name and version.
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -120,7 +115,6 @@ definitions:
   HostedRepository:
     description: A hosted-type package repository.
     type: object
-    additionalProperties: false
     required:
       - name
       - type
@@ -136,7 +130,6 @@ definitions:
   GroupRepository:
     description: A group-type package repository.
     type: object
-    additionalProperties: false
     required:
       - name
       - members

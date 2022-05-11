@@ -1,6 +1,7 @@
-# Tests for schema validation
 #
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -14,13 +15,13 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 # THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# (MIT License)
+# Tests for schema validation
 
 import copy
 import unittest
@@ -112,15 +113,14 @@ class TestSchemaValidation(unittest.TestCase):
         validate(CONFIG_ONLY_FORMAT)
 
     def test_with_images_and_recipes(self):
-        """Test when """
+        """Test when images and recipes are present."""
         validate(IMAGES_AND_RECIPES)
 
     def test_extra_top_level_key(self):
-        """Test adding an extra top level key does not validate."""
+        """Test adding an extra top level key still validates."""
         data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
         data_to_validate['foo'] = 'bar'
-        with self.assertRaises(ValidationError):
-            validate(data_to_validate)
+        validate(data_to_validate)
 
     @unittest.skip('There is no way to assert a UUID format yet.')
     def test_non_uuid(self):
@@ -133,18 +133,16 @@ class TestSchemaValidation(unittest.TestCase):
             validate(data_to_validate)
 
     def test_extra_component_key(self):
-        """Test adding unrecognized component versions does not validate."""
+        """Test adding additional properties to component_versions still validates."""
         data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
         data_to_validate['component_versions']['apk'] = [{'name': 'foo', 'version': 'bar'}]
-        with self.assertRaises(ValidationError):
-            validate(data_to_validate)
+        validate(data_to_validate)
 
     def test_extra_component_version_key(self):
-        """Test adding unrecognized component version attributes does not validate."""
+        """Test adding unrecognized component version properties still validates."""
         data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
         data_to_validate['component_versions']['rpm'][0]['lastUpdated'] = 'yesterday'
-        with self.assertRaises(ValidationError):
-            validate(data_to_validate)
+        validate(data_to_validate)
 
     def test_missing_component_version_key(self):
         """Test a component missing a required key does not validate."""
@@ -154,11 +152,10 @@ class TestSchemaValidation(unittest.TestCase):
             validate(data_to_validate)
 
     def test_with_extra_repository_key(self):
-        """Test a component with invalid repository data does not validate."""
+        """Test a component with additional property in a repository still validates."""
         data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
         data_to_validate['component_versions']['repositories'][0]['another_field'] = 'other_stuff'
-        with self.assertRaises(ValidationError):
-            validate(data_to_validate)
+        validate(data_to_validate)
 
     def test_invalid_repo_key(self):
         """Test a component with invalid repository type does not validate."""
@@ -171,13 +168,6 @@ class TestSchemaValidation(unittest.TestCase):
         """Test a group type repo that does not have a 'members' key does not validate."""
         data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
         del data_to_validate['component_versions']['repositories'][0]['members']
-        with self.assertRaises(ValidationError):
-            validate(data_to_validate)
-
-    def test_hosted_repo_with_members_key(self):
-        """Test a hosted type repo that does have a 'members' key does not validate."""
-        data_to_validate = copy.deepcopy(SAT_NEW_FORMAT)
-        data_to_validate['component_versions']['repositories'][1]['members'] = ['sat-2.1.12-sle-15sp2']
         with self.assertRaises(ValidationError):
             validate(data_to_validate)
 

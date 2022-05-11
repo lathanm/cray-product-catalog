@@ -20,6 +20,7 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+#
 name: Add artifact information to PR
 on:
   pull_request:
@@ -125,6 +126,7 @@ jobs:
 
       - name: Render artifacts comment template
         if: needs.wait-for-deploy-script.outputs.conclusion == 'success'
+        continue-on-error: true
         uses: chuhlomin/render-template@v1.4
         id: template
         with:

@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2022-05-09
+
+### Added
+
+- Added new `query` module to query the `cray-product-catalog` K8s ConfigMap to
+  obtain information about the installed products.
+
+### Changed
+
+- Relaxed schema for product data added to `cray-product-catalog` K8s ConfigMap
+  to allow additional properties.
+
+- Update base image to artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:3.15
+
+- Update license text to comply with automatic license-check tool.
+
+- Update deploy script to work with CSM 1.2 systems and Nexus authentication
+
+### Fixed
+
+- Fixed location where Python module and Helm chart are published to
+  Artifactory by "Build Artifacts" GitHub Actions workflow.
+
 ## [1.5.5] - 2022-03-04
 
 ### Changed
@@ -233,7 +256,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.6.0...HEAD
+
+[1.6.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...v1.6.0
 
 [1.5.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.4...v1.5.5
 

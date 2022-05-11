@@ -20,6 +20,7 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+#
 name: Build Artifacts
 
 # Globals
@@ -245,8 +246,8 @@ jobs:
           PYMOD_VERSION: ${{ needs.build-prep.outputs.py-version }}
         run: |
           ls -lRa dist/
-          jfrog rt upload "dist/*.tar.gz" "${PYMOD_REPOSITORY}/simple/${PYMOD_NAME}/"
-          jfrog rt upload "dist/*.whl" "${PYMOD_REPOSITORY}/simple/${PYMOD_NAME}/"
+          jfrog rt upload --flat=true "dist/*.tar.gz" "${PYMOD_REPOSITORY}/simple/${PYMOD_NAME}/"
+          jfrog rt upload --flat=true "dist/*.whl" "${PYMOD_REPOSITORY}/simple/${PYMOD_NAME}/"
 
       - name: Upload Python Module as Build Artifact
         uses: actions/upload-artifact@v2
@@ -397,7 +398,6 @@ jobs:
       - name: Create additional template vars
         id: vars
         run: |
-          echo ::set-output name=repo_name::$(echo ${GITHUB_REPOSITORY}_${GITHUB_REF_NAME} | sed 's|/|_|g')
           echo ::set-output name=image::$(echo ${IMAGE_NAME}:${IMAGE_TAG})
           echo ::set-output name=image_tag::$(echo ${IMAGE_TAG})
           echo ::set-output name=image_url::$(echo https://artifactory.algol60.net/ui/repos/tree/General/csm-docker%2F${STABLE}%2F${IMAGE_NAME}%2F${IMAGE_TAG})
@@ -420,7 +420,6 @@ jobs:
             fullImage: ${{ needs.build-scan-sign-publish-image.outputs.full-image }}
             imageName: ${{ env.IMAGE_NAME }}
             imageTag: ${{ env.IMAGE_TAG }}
-            zypperRepoName: ${{ steps.vars.outputs.repo_name }}
             commit: ${{ needs.build-prep.outputs.short-sha }}
             ref: ${{ github.ref_name }}
             ref_type: ${{ github.ref_type }}
@@ -575,7 +574,7 @@ jobs:
           CHARTS_PATTERN: "*.tgz"
           CHART_VERSION: ${{ needs.build-prep.outputs.chart-version }}
         run: |
-          jfrog rt upload "charts/.packaged/${CHART_NAME}-${CHART_VERSION}.tgz" "${CHART_REPOSITORY}/${STABLE_PATH}/${CHART_NAME}/"
+          jfrog rt upload --flat=true "charts/.packaged/${CHART_NAME}-${CHART_VERSION}.tgz" "${CHART_REPOSITORY}/${STABLE_PATH}/${CHART_NAME}/"
 
           # Provide links for downloading
           for packaged_chart in $(find charts/.packaged -mindepth 1 -maxdepth 1); do

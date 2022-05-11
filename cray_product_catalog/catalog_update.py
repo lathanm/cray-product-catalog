@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
+#
+# MIT License
+#
+# (C) Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -13,14 +16,12 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 # THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# (MIT License)
-
 # This script takes a PRODUCT and PRODUCT_VERSION and applies the content of
 # a YAML file to a Kubernetes ConfigMap as follows:
 #
@@ -39,13 +40,14 @@ import urllib3
 from urllib3.util.retry import Retry
 
 from jsonschema.exceptions import ValidationError
-from kubernetes import client, config
+from kubernetes import client
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.configuration import Configuration
 from kubernetes.client.rest import ApiException
 import yaml
 
 from cray_product_catalog.schema.validate import validate
+from cray_product_catalog.util import load_k8s
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -64,14 +66,6 @@ CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip(
 YAML_CONTENT = os.environ.get("YAML_CONTENT").strip()  # required
 SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
-
-
-def load_k8s():
-    """ Load Kubernetes Configuration """
-    try:
-        config.load_incluster_config()
-    except Exception:
-        config.load_kube_config()
 
 
 def validate_schema(data):
