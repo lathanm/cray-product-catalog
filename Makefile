@@ -32,7 +32,7 @@ CHART_VERSION ?= $(shell head -1 .chart_version)
 
 HELM_UNITTEST_IMAGE ?= quintush/helm-unittest:3.3.0-0.2.5
 
-all: runbuildprep lint chart pymod
+all: runbuildprep lint image chart pymod
 chart: chart_setup chart_package chart_test
 pymod: pymod_prepare pymod_build pymod_test
 
@@ -41,6 +41,9 @@ runbuildprep:
 
 lint:
 		./cms_meta_tools/scripts/runLint.sh
+
+image:
+		docker build --pull ${DOCKER_ARGS} --tag '${APP_NAME}:${DOCKER_VERSION}' .
 
 chart_setup:
 		mkdir -p ${CHART_PATH}/.packaged

@@ -76,6 +76,17 @@ pipeline {
         
         stage("Build") {            
             parallel {
+                stage('Image') {
+                    environment {
+                        DOCKER_VERSION = sh(returnStdout: true, script: "head -1 .docker_version").trim()
+                        DOCKER_ARGS = getDockerBuildArgs(name: env.NAME, description: env.DESCRIPTION, version: env.DOCKER_VERSION)
+                    }
+
+                    steps {
+                        echo "Docker args are ${env.DOCKER_ARGS}"
+                        sh "make image"
+                    }
+                }
 
                 stage('Chart') {
                     environment {
@@ -105,6 +116,7 @@ pipeline {
             }
 
             steps {
+                publishCsmDockerImage(image: env.APP_NAME, tag: env.DOCKER_VERSION, isStable: env.IS_STABLE)
                 publishCsmHelmCharts(component: env.NAME, chartsPath: "${WORKSPACE}/charts/.packaged", isStable: env.IS_STABLE)
                 publishCsmPythonModules(module: env.PYMOD_NAME, isStable: env.IS_STABLE)
             }
