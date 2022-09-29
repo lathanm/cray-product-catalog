@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Reverted github workflows regarding image building and publishing and 
+  releases back to Jenkins pipelines.
+
 ## [1.6.0] - 2022-05-09
 
 ### Added
