@@ -43,11 +43,14 @@ from jsonschema.exceptions import ValidationError
 from kubernetes import client
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.configuration import Configuration
+from kubernetes.client.models.v1_config_map import V1ConfigMap
+from kubernetes.client.models.v1_object_meta import V1ObjectMeta
 from kubernetes.client.rest import ApiException
 import yaml
 
 from cray_product_catalog.schema.validate import validate
-from cray_product_catalog.util import load_k8s
+from cray_product_catalog.util.k8s import load_k8s
+from cray_product_catalog.util.merge_dict import merge_dict
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -66,6 +69,9 @@ CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip(
 YAML_CONTENT = os.environ.get("YAML_CONTENT").strip()  # required
 SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
+
+ERR_NOT_FOUND = 404
+ERR_CONFLICT = 409
 
 
 def validate_schema(data):
@@ -111,9 +117,11 @@ def update_config_map(data, name, namespace):
     Get the config map `data` to be added.
 
     1. Wait for the config map to be present in the namespace
-    2. Patch the config_map
-    3. Read back the config_map
-    4. Repeat steps 2-3 if config_map does not include the changes requested
+    2. Read the config map
+    3. Patch the config_map
+    4. Read back the config_map
+    5. Repeat steps 2-4 if config_map does not include the changes requested,
+       or if step 3 failed due to a conflict.
     """
     k8sclient = ApiClient(configuration=Configuration())
     retries = 100
@@ -142,7 +150,7 @@ def update_config_map(data, name, namespace):
             LOGGER.exception("Error calling read_namespaced_config_map")
 
             # Config map doesn't exist yet
-            if e.status == 404:
+            if e.status == ERR_NOT_FOUND:
                 LOGGER.warning("ConfigMap %s/%s doesn't exist, attempting again.", namespace, name)
                 continue
             else:
@@ -163,13 +171,13 @@ def update_config_map(data, name, namespace):
                 product_data[PRODUCT_VERSION] = {}
             # Key with same version exists in ConfigMap
             else:
-                if (data.items() <= product_data[PRODUCT_VERSION].items()
+                if (merge_dict(data, product_data[PRODUCT_VERSION]) == product_data[PRODUCT_VERSION]
                         and (current_version_is_active(product_data) or not SET_ACTIVE_VERSION)):
                     LOGGER.info("ConfigMap data updates exist; Exiting.")
                     break
 
         # Patch the config map if needed
-        product_data[PRODUCT_VERSION].update(data)
+        product_data[PRODUCT_VERSION] = merge_dict(data, product_data[PRODUCT_VERSION])
         if SET_ACTIVE_VERSION:
             set_active_version(product_data)
         config_map_data[PRODUCT] = yaml.safe_dump(
@@ -177,11 +185,21 @@ def update_config_map(data, name, namespace):
         )
         LOGGER.info("ConfigMap update attempt=%s", attempt)
         try:
-            api_instance.patch_namespaced_config_map(
-                name, namespace, client.V1ConfigMap(data=config_map_data)
+            new_config_map = V1ConfigMap(data=config_map_data)
+            new_config_map.metadata = V1ObjectMeta(
+                name=name, resource_version=response.metadata.resource_version
             )
-        except ApiException:
-            LOGGER.exception("Error calling patch_namespaced_config_map")
+            api_instance.patch_namespaced_config_map(
+                name, namespace, body=new_config_map
+            )
+        except ApiException as e:
+            if e.status == ERR_CONFLICT:
+                # A conflict is raised if the resourceVersion field was unexpectedly
+                # incremented, e.g. if another process updated the config map. This
+                # provides concurrency protection.
+                LOGGER.warning("Conflict updating config map")
+            else:
+                LOGGER.exception("Error calling replace_namespaced_config_map")
 
 
 def main():
