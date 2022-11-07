@@ -42,7 +42,6 @@ from urllib3.util.retry import Retry
 from jsonschema.exceptions import ValidationError
 from kubernetes import client
 from kubernetes.client.api_client import ApiClient
-from kubernetes.client.configuration import Configuration
 from kubernetes.client.models.v1_config_map import V1ConfigMap
 from kubernetes.client.models.v1_object_meta import V1ObjectMeta
 from kubernetes.client.rest import ApiException
@@ -123,7 +122,7 @@ def update_config_map(data, name, namespace):
     5. Repeat steps 2-4 if config_map does not include the changes requested,
        or if step 3 failed due to a conflict.
     """
-    k8sclient = ApiClient(configuration=Configuration())
+    k8sclient = ApiClient()
     retries = 100
     retry = Retry(
         total=retries, read=retries, connect=retries, backoff_factor=0.3,
