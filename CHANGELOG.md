@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reverted github workflows regarding image building and publishing and 
   releases back to Jenkins pipelines.
 
+### Added
+
+- Improved concurrency handling by checking for resource conflicts when updating
+  the config map.
+- Improved the ability to update more specific portions of the config map by adding
+  a recursive `merge_dict` utility that is used to merge input data into the existing
+  config map.
+
 ## [1.6.0] - 2022-05-09
 
 ### Added
