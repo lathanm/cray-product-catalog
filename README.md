@@ -8,15 +8,20 @@ See the [CSM Compatibility Matrix](https://github.com/Cray-HPE/cray-product-cata
 for more information about what version of the Cray Product Catalog Update image to
 use in your product.
 
-At minimum, the `catalog_update.py` script takes a `PRODUCT` and
-`PRODUCT_VERSION` and applies the content of a file denoted by `YAML_CONTENT`
-file as follows:
+At minimum, the `catalog_update.py` script takes environment variables `PRODUCT`
+and `PRODUCT_VERSION` and applies the content of a file denoted by
+`YAML_CONTENT_FILE` file as follows:
 
 ```yaml
 {PRODUCT}:
   {PRODUCT_VERSION}:
-    {content of yaml file (in YAML_CONTENT)}
+    {content of yaml file (in YAML_CONTENT_FILE)}
 ```
+
+For backwards compatibility, the environment variable `YAML_CONTENT` is
+equivalent to `YAML_CONTENT_FILE`. As an alternative to `YAML_CONTENT_FILE`,
+a YAML-formatted string may be passed using the environment variable
+`YAML_CONTENT_STRING`.
 
 The product catalog is a lightweight software inventory of sorts, and allows for
 system users to view a product and its associated versions and version metadata
@@ -52,13 +57,13 @@ Kubernetes job template to see cray-product-catalog in action.
 To create an entry in the config map for an "example" product with version
 1.2.3, you can use podman on a Kubernetes worker/master node. Be sure to mount
 the Kubernetes config file into the running container as well as the
-`YAML_CONTENT`.
+`YAML_CONTENT_FILE`.
 
 ```bash
 ncn-w001:~/ # podman run --rm --name example-cpc --network podman-cni-config \
     -e PRODUCT=example \
     -e PRODUCT_VERSION=1.2.3 \
-    -e YAML_CONTENT=/results/example.yaml \
+    -e YAML_CONTENT_FILE=/results/example.yaml \
     -e KUBECONFIG=/.kube/admin.conf \
     -v /etc/kubernetes:/.kube:ro \
     -v ${PWD}:/results:ro \
@@ -97,15 +102,25 @@ All configuration options are provided as environment variables.
 > The SemVer version of the Cray/Shasta product that is being imported, e.g.
   `1.2.3`.
 
-* `YAML_CONTENT`=  (no default)
+* One of:
 
-> The filesystem location of the YAML that will be added to the config map.
+    * `YAML_CONTENT_FILE` = (no default)
+
+      > The filesystem location of the YAML that will be added to the config map.
+
+    * `YAML_CONTENT` = (no default)
+
+      > Equivalent to `YAML_CONTENT_FILE`, included for backwards compatibility.
+
+    * `YAML_CONTENT_STRING` = (no default)
+
+      > A YAML-formatted string to be used as an alternative to `YAML_CONTENT_FILE`.
 
 ### Optional Environment Variables
 
  * `CONFIG_MAP` = `cray-product-catalog`
 
- > The name of the config map to add the `YAML_CONTENT` to.
+ > The name of the config map to add the `YAML_CONTENT_FILE` to.
 
  * `CONFIG_MAP_NAMESPACE` = `services`
 

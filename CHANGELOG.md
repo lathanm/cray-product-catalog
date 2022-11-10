@@ -11,9 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reverted github workflows regarding image building and publishing and 
   releases back to Jenkins pipelines.
+- Renamed `YAML_CONTENT` environment variable to `YAML_CONTENT_FILE`. For
+  backwards compatibility, `YAML_CONTENT` can still be used.
 
 ### Added
 
+- Added an environment variable `YAML_CONTENT_STRING` so that data can be passed in
+  string form rather than in file form.
 - Improved concurrency handling by checking for resource conflicts when updating
   the config map.
 - Improved the ability to update more specific portions of the config map by adding
