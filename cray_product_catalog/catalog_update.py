@@ -65,7 +65,10 @@ PRODUCT = os.environ.get("PRODUCT").strip()  # required
 PRODUCT_VERSION = os.environ.get("PRODUCT_VERSION").strip()  # required
 CONFIG_MAP = os.environ.get("CONFIG_MAP", "cray-product-catalog").strip()
 CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip()
-YAML_CONTENT = os.environ.get("YAML_CONTENT").strip()  # required
+# One of (YAML_CONTENT_FILE, YAML_CONTENT_STRING) required. For backwards compatibility, YAML_CONTENT
+# may also be given in place of YAML_CONTENT_FILE.
+YAML_CONTENT_FILE = (os.environ.get("YAML_CONTENT_FILE") or os.environ.get("YAML_CONTENT", "")).strip()
+YAML_CONTENT_STRING = os.environ.get("YAML_CONTENT_STRING", "").strip()   # see above
 SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
 
@@ -90,6 +93,12 @@ def read_yaml_content(yaml_file):
     LOGGER.info("Retrieving content from %s", yaml_file)
     with open(yaml_file) as yfile:
         return yaml.safe_load(yfile)
+
+
+def read_yaml_content_string(yaml_string):
+    """ Read and return the raw content contained in the `yaml_string` string. """
+    LOGGER.info("Retrieving raw content specified as a string")
+    return yaml.safe_load(yaml_string)
 
 
 def set_active_version(product_data):
@@ -214,7 +223,16 @@ def main():
         )
 
     load_k8s()
-    data = read_yaml_content(YAML_CONTENT)
+    if YAML_CONTENT_FILE:
+        data = read_yaml_content(YAML_CONTENT_FILE)
+    elif YAML_CONTENT_STRING:
+        data = read_yaml_content_string(YAML_CONTENT_STRING)
+    else:
+        LOGGER.error(
+            "One of the environment variables YAML_CONTENT_FILE or "
+            "YAML_CONTENT_STRING must be specified."
+        )
+        raise SystemExit(1)
     if VALIDATE_SCHEMA:
         validate_schema(data)
 
