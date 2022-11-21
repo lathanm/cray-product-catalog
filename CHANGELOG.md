@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added a github workflow for checking license text separate from the organization-
+  wide "license-check" workflow.
 - Reverted github workflows regarding image building and publishing and 
   releases back to Jenkins pipelines.
 - Renamed `YAML_CONTENT` environment variable to `YAML_CONTENT_FILE`. For
