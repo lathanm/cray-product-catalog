@@ -20,14 +20,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# Defines utility functions used by other modules.
+# Defines a utility function for loading the k8s config.
 
-from kubernetes import config
-
-
-def load_k8s():
-    """ Load Kubernetes Configuration """
-    try:
-        config.load_incluster_config()
-    except Exception:
-        config.load_kube_config()
+# import load_k8s here so that load_k8s can be imported from cray_product_catalog.util
+from cray_product_catalog.util.k8s import load_k8s

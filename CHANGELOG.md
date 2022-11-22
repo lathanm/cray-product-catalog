@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2022-11-17
+
+### Changed
+
+- Added a github workflow for checking license text separate from the organization-
+  wide "license-check" workflow.
+- Reverted github workflows regarding image building and publishing and 
+  releases back to Jenkins pipelines.
+- Renamed `YAML_CONTENT` environment variable to `YAML_CONTENT_FILE`. For
+  backwards compatibility, `YAML_CONTENT` can still be used.
+
+### Added
+
+- Added an environment variable `YAML_CONTENT_STRING` so that data can be passed in
+  string form rather than in file form.
+- Improved concurrency handling by checking for resource conflicts when updating
+  the config map.
+- Improved the ability to update more specific portions of the config map by adding
+  a recursive `merge_dict` utility that is used to merge input data into the existing
+  config map.
+
 ## [1.6.0] - 2022-05-09
 
 ### Added
@@ -256,7 +277,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.7.0...HEAD
+
+[1.7.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.6.0...v1.7.0
 
 [1.6.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.5.5...v1.6.0
 
