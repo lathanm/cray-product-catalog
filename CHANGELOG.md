@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Modified github workflow for checking license text to use authenticated access to
   artifactory server hosting license-checker image.
+- Changed format of log messages to be prefixed with severity.
+
+### Fixed
+- Fixed an issue where log messages from child modules were not being printed.
 
 ## [1.7.0] - 2022-11-17
 

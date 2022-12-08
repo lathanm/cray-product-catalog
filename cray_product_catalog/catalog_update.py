@@ -34,7 +34,6 @@
 import logging
 import os
 import random
-import sys
 import time
 import urllib3
 from urllib3.util.retry import Retry
@@ -47,18 +46,12 @@ from kubernetes.client.models.v1_object_meta import V1ObjectMeta
 from kubernetes.client.rest import ApiException
 import yaml
 
+from cray_product_catalog.logging import configure_logging
 from cray_product_catalog.schema.validate import validate
 from cray_product_catalog.util.k8s import load_k8s
 from cray_product_catalog.util.merge_dict import merge_dict
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Logging
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-LOGGER.addHandler(handler)
 
 # Parameters to identify config map and content in it to update
 PRODUCT = os.environ.get("PRODUCT").strip()  # required
@@ -74,6 +67,8 @@ VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
 
 ERR_NOT_FOUND = 404
 ERR_CONFLICT = 409
+
+LOGGER = logging.getLogger(__name__)
 
 
 def validate_schema(data):
@@ -211,6 +206,7 @@ def update_config_map(data, name, namespace):
 
 
 def main():
+    configure_logging()
     LOGGER.info(
         "Updating config_map=%s in namespace=%s for product/version=%s/%s",
         CONFIG_MAP, CONFIG_MAP_NAMESPACE, PRODUCT, PRODUCT_VERSION
