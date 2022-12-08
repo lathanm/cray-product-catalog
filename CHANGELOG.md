@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Modified github workflow for checking license text to use authenticated access to
+  artifactory server hosting license-checker image.
+
 ## [1.7.0] - 2022-11-17
 
 ### Changed
