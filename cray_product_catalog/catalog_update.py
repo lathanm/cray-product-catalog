@@ -39,7 +39,7 @@ import urllib3
 from urllib3.util.retry import Retry
 
 from jsonschema.exceptions import ValidationError
-from kubernetes import client
+from kubernetes.client import CoreV1Api
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.models.v1_config_map import V1ConfigMap
 from kubernetes.client.models.v1_object_meta import V1ObjectMeta
@@ -53,23 +53,43 @@ from cray_product_catalog.util.merge_dict import merge_dict
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Parameters to identify config map and content in it to update
-PRODUCT = os.environ.get("PRODUCT").strip()  # required
-PRODUCT_VERSION = os.environ.get("PRODUCT_VERSION").strip()  # required
-CONFIG_MAP = os.environ.get("CONFIG_MAP", "cray-product-catalog").strip()
-CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip()
-# One of (YAML_CONTENT_FILE, YAML_CONTENT_STRING) required. For backwards compatibility, YAML_CONTENT
-# may also be given in place of YAML_CONTENT_FILE.
-YAML_CONTENT_FILE = (os.environ.get("YAML_CONTENT_FILE") or os.environ.get("YAML_CONTENT", "")).strip()
-YAML_CONTENT_STRING = os.environ.get("YAML_CONTENT_STRING", "").strip()   # see above
-SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
-REMOVE_ACTIVE_FIELD = bool(os.environ.get("REMOVE_ACTIVE_FIELD"))
-VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
+# Global variables. See load_global_variables_from_environment().
+PRODUCT = None
+PRODUCT_VERSION = None
+CONFIG_MAP = None
+CONFIG_MAP_NAMESPACE = None
+YAML_CONTENT_FILE = None
+YAML_CONTENT_STRING = None
+SET_ACTIVE_VERSION = None
+REMOVE_ACTIVE_FIELD = None
+VALIDATE_SCHEMA = None
 
 ERR_NOT_FOUND = 404
 ERR_CONFLICT = 409
 
 LOGGER = logging.getLogger(__name__)
+
+
+def load_global_variables_from_environment():
+    """Load global variables from environment.
+
+    This function is called via main() so that the catalog_update module can be imported without
+    required environment variables being set.
+    """
+    global PRODUCT, PRODUCT_VERSION, CONFIG_MAP, CONFIG_MAP_NAMESPACE, YAML_CONTENT_FILE, YAML_CONTENT_STRING, \
+        SET_ACTIVE_VERSION, REMOVE_ACTIVE_FIELD, VALIDATE_SCHEMA
+    # Parameters to identify config map and content in it to update
+    PRODUCT = os.environ.get("PRODUCT").strip()  # required
+    PRODUCT_VERSION = os.environ.get("PRODUCT_VERSION").strip()  # required
+    CONFIG_MAP = os.environ.get("CONFIG_MAP", "cray-product-catalog").strip()
+    CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip()
+    # One of (YAML_CONTENT_FILE, YAML_CONTENT_STRING) required. For backwards compatibility, YAML_CONTENT
+    # may also be given in place of YAML_CONTENT_FILE.
+    YAML_CONTENT_FILE = (os.environ.get("YAML_CONTENT_FILE") or os.environ.get("YAML_CONTENT", "")).strip()
+    YAML_CONTENT_STRING = os.environ.get("YAML_CONTENT_STRING", "").strip()   # see above
+    SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
+    REMOVE_ACTIVE_FIELD = bool(os.environ.get("REMOVE_ACTIVE_FIELD"))
+    VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
 
 
 def validate_schema(data):
@@ -129,6 +149,34 @@ def active_field_exists(product_data):
     return any("active" in product_data[version] for version in product_data)
 
 
+def patch_config_map(api_instance, name, namespace, resource_version, config_map_data):
+    """
+    Patch the namespace/name ConfigMap with the given config_map_data. Helper
+    for update_config_map().
+
+    Args:
+        api_instance (CoreV1Api): A Kubernetes CoreV1Api object.
+        name (str): The name of the configmap to patch.
+        namespace (str): The namespace of the configmap to patch.
+        resource_version (str): The resource_version of the configmap to patch.
+        config_map_data (dict): The data with which to patch the config map.
+
+    Returns:
+        None
+
+    Raises:
+        ApiException: if a conflict occurs (due to resourceversion conflict).
+        ApiException: if another API error occurs.
+    """
+    new_config_map = V1ConfigMap(data=config_map_data)
+    new_config_map.metadata = V1ObjectMeta(
+        name=name, resource_version=resource_version
+    )
+    api_instance.patch_namespaced_config_map(
+        name, namespace, body=new_config_map
+    )
+
+
 def update_config_map(data, name, namespace):
     """
     Get the config map `data` to be added.
@@ -147,7 +195,7 @@ def update_config_map(data, name, namespace):
         status_forcelist=(500, 502, 503, 504)
     )
     k8sclient.rest_client.pool_manager.connection_pool_kw['retries'] = retry
-    api_instance = client.CoreV1Api(k8sclient)
+    api_instance = CoreV1Api(k8sclient)
     attempt = 0
 
     while True:
@@ -216,13 +264,7 @@ def update_config_map(data, name, namespace):
         )
         LOGGER.info("ConfigMap update attempt=%s", attempt)
         try:
-            new_config_map = V1ConfigMap(data=config_map_data)
-            new_config_map.metadata = V1ObjectMeta(
-                name=name, resource_version=response.metadata.resource_version
-            )
-            api_instance.patch_namespaced_config_map(
-                name, namespace, body=new_config_map
-            )
+            patch_config_map(api_instance, name, namespace, response.metadata.resource_version, config_map_data)
         except ApiException as e:
             if e.status == ERR_CONFLICT:
                 # A conflict is raised if the resourceVersion field was unexpectedly
@@ -235,6 +277,7 @@ def update_config_map(data, name, namespace):
 
 def main():
     configure_logging()
+    load_global_variables_from_environment()
     LOGGER.info(
         "Updating config_map=%s in namespace=%s for product/version=%s/%s",
         CONFIG_MAP, CONFIG_MAP_NAMESPACE, PRODUCT, PRODUCT_VERSION
