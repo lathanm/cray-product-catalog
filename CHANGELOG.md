@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added an environment variable `REMOVE_ACTIVE_FIELD`. When set, the `catalog_update`
+  script will remove the 'active' field for all versions of the given product.
+
 ### Changed
 
 - Modified github workflow for checking license text to use authenticated access to
