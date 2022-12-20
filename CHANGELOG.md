@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.8.0] - 2022-12-20
 
 ### Added
+
 - Added an environment variable `REMOVE_ACTIVE_FIELD`. When set, the `catalog_update`
   script will remove the 'active' field for all versions of the given product.
 
@@ -17,9 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Modified github workflow for checking license text to use authenticated access to
   artifactory server hosting license-checker image.
+
 - Changed format of log messages to be prefixed with severity.
 
 ### Fixed
+
 - Fixed an issue where log messages from child modules were not being printed.
 
 ## [1.7.0] - 2022-11-17
@@ -28,8 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a github workflow for checking license text separate from the organization-
   wide "license-check" workflow.
+
 - Reverted github workflows regarding image building and publishing and 
   releases back to Jenkins pipelines.
+
 - Renamed `YAML_CONTENT` environment variable to `YAML_CONTENT_FILE`. For
   backwards compatibility, `YAML_CONTENT` can still be used.
 
@@ -37,8 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added an environment variable `YAML_CONTENT_STRING` so that data can be passed in
   string form rather than in file form.
+
 - Improved concurrency handling by checking for resource conflicts when updating
   the config map.
+
 - Improved the ability to update more specific portions of the config map by adding
   a recursive `merge_dict` utility that is used to merge input data into the existing
   config map.
