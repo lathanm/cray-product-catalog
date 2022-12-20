@@ -1,4 +1,3 @@
-#
 # MIT License
 #
 # (C) Copyright 2022 Hewlett Packard Enterprise Development LP
@@ -21,28 +20,22 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-name: Check Licenses
+# Logging configuration for cray_product_catalog
 
-on:
-  pull_request:
+import logging
+import sys
 
-jobs:
-  license-check:
-    runs-on: ubuntu-latest
 
-    container:
-      image: artifactory.algol60.net/csm-docker/stable/license-checker:latest
-      credentials:
-          username: ${{ secrets.ARTIFACTORY_ALGOL60_READONLY_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_ALGOL60_READONLY_TOKEN }}
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Get changed files
-      id: changed-files
-      uses: tj-actions/changed-files@v34
-
-    - name: License Check
-      if: ${{ steps.changed-files.outputs.all_changed_files }}
-      run: /usr/local/bin/python3 /license_check/license_check.py ${{ steps.changed-files.outputs.all_changed_files }}
+def configure_logging():
+    """
+    Configure the cray_product_catalog logger.
+    """
+    # Get the package name (e.g. cray_product_catalog)
+    logger_name = __name__.split('.', 1)[0]
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(levelname)s %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
