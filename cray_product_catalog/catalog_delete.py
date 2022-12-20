@@ -41,7 +41,6 @@
 import logging
 import os
 import random
-import sys
 import time
 import urllib3
 from urllib3.util.retry import Retry
@@ -51,16 +50,12 @@ from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 import yaml
 
+from cray_product_catalog.logging import configure_logging
 from cray_product_catalog.util import load_k8s
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Logging
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-LOGGER.addHandler(handler)
 
 
 def modify_config_map(name, namespace, product, product_version, key=None):
@@ -163,6 +158,7 @@ def modify_config_map(name, namespace, product, product_version, key=None):
 
 
 def main():
+    configure_logging()
     # Parameters to identify config map and product/version to remove
     PRODUCT = os.environ.get("PRODUCT").strip()  # required
     PRODUCT_VERSION = os.environ.get("PRODUCT_VERSION").strip()  # required

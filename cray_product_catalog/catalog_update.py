@@ -34,7 +34,6 @@
 import logging
 import os
 import random
-import sys
 import time
 import urllib3
 from urllib3.util.retry import Retry
@@ -47,18 +46,12 @@ from kubernetes.client.models.v1_object_meta import V1ObjectMeta
 from kubernetes.client.rest import ApiException
 import yaml
 
+from cray_product_catalog.logging import configure_logging
 from cray_product_catalog.schema.validate import validate
 from cray_product_catalog.util.k8s import load_k8s
 from cray_product_catalog.util.merge_dict import merge_dict
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Logging
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-LOGGER.addHandler(handler)
 
 # Parameters to identify config map and content in it to update
 PRODUCT = os.environ.get("PRODUCT").strip()  # required
@@ -70,10 +63,13 @@ CONFIG_MAP_NAMESPACE = os.environ.get("CONFIG_MAP_NAMESPACE", "services").strip(
 YAML_CONTENT_FILE = (os.environ.get("YAML_CONTENT_FILE") or os.environ.get("YAML_CONTENT", "")).strip()
 YAML_CONTENT_STRING = os.environ.get("YAML_CONTENT_STRING", "").strip()   # see above
 SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
+REMOVE_ACTIVE_FIELD = bool(os.environ.get("REMOVE_ACTIVE_FIELD"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
 
 ERR_NOT_FOUND = 404
 ERR_CONFLICT = 409
+
+LOGGER = logging.getLogger(__name__)
 
 
 def validate_schema(data):
@@ -118,6 +114,19 @@ def current_version_is_active(product_data):
     return current_version.get('active') and not any(
                [product_data[version].get('active') for version in other_versions]
            )
+
+
+def remove_active_field(product_data):
+    """ Remove the 'active' field for a given product. """
+    LOGGER.info(f"Deleting 'active' field for all versions of %s", PRODUCT)
+    for version in product_data:
+        if "active" in product_data[version]:
+            del product_data[version]["active"]
+
+
+def active_field_exists(product_data):
+    """ Return True if any version of the given product is using the 'active' field."""
+    return any("active" in product_data[version] for version in product_data)
 
 
 def update_config_map(data, name, namespace):
@@ -179,15 +188,29 @@ def update_config_map(data, name, namespace):
                 product_data[PRODUCT_VERSION] = {}
             # Key with same version exists in ConfigMap
             else:
-                if (merge_dict(data, product_data[PRODUCT_VERSION]) == product_data[PRODUCT_VERSION]
-                        and (current_version_is_active(product_data) or not SET_ACTIVE_VERSION)):
-                    LOGGER.info("ConfigMap data updates exist; Exiting.")
-                    break
+                # Data to insert matches data found in configmap.
+                if merge_dict(data, product_data[PRODUCT_VERSION]) == product_data[PRODUCT_VERSION]:
+                    if SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD:
+                        # This should not happen (see main method).
+                        raise SystemExit(1)
+                    elif SET_ACTIVE_VERSION:
+                        if current_version_is_active(product_data):
+                            LOGGER.info("ConfigMap data updates exist and desired version is active; Exiting.")
+                            break
+                    elif REMOVE_ACTIVE_FIELD:
+                        if not active_field_exists(product_data):
+                            LOGGER.info("ConfigMap data updates exist and 'active' field has been cleared; Exiting.")
+                            break
+                    else:
+                        LOGGER.info("ConfigMap data updates exist; Exiting.")
+                        break
 
         # Patch the config map if needed
         product_data[PRODUCT_VERSION] = merge_dict(data, product_data[PRODUCT_VERSION])
         if SET_ACTIVE_VERSION:
             set_active_version(product_data)
+        if REMOVE_ACTIVE_FIELD:
+            remove_active_field(product_data)
         config_map_data[PRODUCT] = yaml.safe_dump(
             product_data, default_flow_style=False
         )
@@ -211,15 +234,27 @@ def update_config_map(data, name, namespace):
 
 
 def main():
+    configure_logging()
     LOGGER.info(
         "Updating config_map=%s in namespace=%s for product/version=%s/%s",
         CONFIG_MAP, CONFIG_MAP_NAMESPACE, PRODUCT, PRODUCT_VERSION
     )
 
-    if SET_ACTIVE_VERSION:
+    if SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD:
+        LOGGER.error(
+            "SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD cannot both be set."
+        )
+        raise SystemExit(1)
+
+    elif SET_ACTIVE_VERSION:
         LOGGER.info(
             "Setting %s:%s to active because SET_ACTIVE_VERSION was set.",
             PRODUCT, PRODUCT_VERSION
+        )
+
+    elif REMOVE_ACTIVE_FIELD:
+        LOGGER.info(
+            "Product %s will have 'active' value cleared because REMOVE_ACTIVE_FIELD was set.", PRODUCT
         )
 
     load_k8s()
