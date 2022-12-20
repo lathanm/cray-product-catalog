@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2022-12-20
+
 ### Added
 - Added an environment variable `REMOVE_ACTIVE_FIELD`. When set, the `catalog_update`
   script will remove the 'active' field for all versions of the given product.
@@ -290,7 +292,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.0...HEAD
+
+[1.8.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.7.0...v1.8.0
 
 [1.7.0]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.6.0...v1.7.0
 
