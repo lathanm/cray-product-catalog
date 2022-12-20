@@ -126,6 +126,17 @@ All configuration options are provided as environment variables.
 
  > The Kubernetes namespace of the `CONFIG_MAP`.
 
+ * `SET_ACTIVE_VERSION` = `''`
+
+ > When set, the given product-version will have a field called 'active' set to `true`. Other
+ > versions of the product will automatically have the field set to `false.` Cannot be used with
+ > `REMOVE_ACTIVE_FIELD` (see below).
+
+ * `REMOVE_ACTIVE_FIELD` = `''`
+
+ > When set, all versions of the given product will have the 'active' field removed from the
+ > ConfigMap data. Cannot be used with `SET_ACTIVE_VERSION` (see above).
+
 ## Versioning and Releases
 
 Versions are calculated automatically using `gitversion`. The full SemVer
