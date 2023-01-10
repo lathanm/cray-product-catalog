@@ -1,6 +1,6 @@
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -80,3 +80,16 @@ class TestMergeDict(unittest.TestCase):
         merge_dict(input_dict, existing)
         self.assertEqual(input_dict, COMPLICATED_INPUT_DICT)
         self.assertEqual(existing, COMPLICATED_EXISTING_DICT)
+
+    def test_merge_dict_with_duplicate_dicts(self):
+        """Test that merge_dict resolves duplicate dictionaries."""
+        input_dict = deepcopy(PRODUCT_CATALOG_INPUT_DATA)
+        input_dict['component_versions']['docker'].extend([
+            {
+                'name': 'cray-apple',
+                'version': '1.0.0'
+            }
+        ])
+        expected = PRODUCT_CATALOG_EXPECTED_MERGE
+        actual = merge_dict(input_dict, PRODUCT_CATALOG_EXISTING_DATA)
+        self.assertEqual(expected, actual)
