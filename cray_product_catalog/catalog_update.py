@@ -268,6 +268,13 @@ def main():
             "YAML_CONTENT_STRING must be specified."
         )
         raise SystemExit(1)
+
+    if not data:
+        LOGGER.info(
+            'Empty data supplied, nothing to insert to the product catalog.'
+        )
+        return
+
     if VALIDATE_SCHEMA:
         validate_schema(data)
 
