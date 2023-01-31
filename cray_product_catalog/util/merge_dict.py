@@ -1,6 +1,6 @@
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -111,8 +111,10 @@ def _merge_input_with_existing(input_key, input_value, dict_to_update):
             # Merging two dicts, use merge_dict() recursively.
             dict_to_update[input_key] = merge_dict(input_value, dict_to_update[input_key])
         elif _values_are_lists(dict_to_update[input_key], input_value):
-            # Merging two lists, use extend().
-            dict_to_update[input_key].extend(input_value)
+            # Merging two lists, use extend(). Do not duplicate items.
+            dict_to_update[input_key].extend(
+                [val for val in input_value if val not in dict_to_update[input_key]]
+            )
         else:
             if _values_are_different_types(input_value, dict_to_update[input_key]):
                 raise TypeError(
