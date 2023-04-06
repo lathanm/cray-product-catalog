@@ -23,7 +23,7 @@
 #
 apiVersion: v2
 name: cray-product-catalog
-version: 0.0.0-DEV  # Replaced during build
+version: 0.0.0-chart  # Replaced during build
 description: Catalog of Cray EX add-on Products
 keywords:
   - cray
@@ -33,12 +33,12 @@ sources:
 maintainers:
   - email: mitchell.harding@hpe.com
     name: mharding-hpe
-appVersion: 0.0.0-DEV  # Replaced during build
+appVersion: 0.0.0-docker  # Replaced during build
 annotations:
   # image reference replaced during build
   artifacthub.io/images: |
     - name: cray-product-catalog-update
-      image: artifactory.algol60.net/csm-docker/stable/cray-product-catalog-update:0.0.0
+      image: artifactory.algol60.net/csm-docker/S-T-A-B-L-E/cray-product-catalog-update:0.0.0-docker
     - name: docker-kubectl
       image: artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
   artifacthub.io/license: MIT
