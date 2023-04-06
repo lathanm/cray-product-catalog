@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.3] - 2023-04-06
+
+### Fixed
+
+- Fixed bad image path in the helm chart
+
+### Changed
+
+- Updated chart maintainer
+- Correct version strings used in Chart
+
 ## [1.8.2] - 2023-01-10
 
 ### Fixed
@@ -311,7 +322,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.2...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.3...HEAD
+
+[1.8.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.2...v1.8.3
 
 [1.8.2]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.1...v1.8.2
 
