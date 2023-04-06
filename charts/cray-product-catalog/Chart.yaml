@@ -31,8 +31,8 @@ keywords:
 sources:
   - https://github.com/Cray-HPE/cray-product-catalog
 maintainers:
-  - email: randy.kleinman@hpe.com
-    name: rkleinman-hpe
+  - email: mitchell.harding@hpe.com
+    name: mharding-hpe
 appVersion: 0.0.0-DEV  # Replaced during build
 annotations:
   # image reference replaced during build

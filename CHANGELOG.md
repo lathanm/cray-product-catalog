@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed bad image path in the helm chart
 
+### Changed
+
+- Updated chart maintainer
+
 ## [1.8.2] - 2023-01-10
 
 ### Fixed
