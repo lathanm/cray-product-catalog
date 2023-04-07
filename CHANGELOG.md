@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.4] - 2023-04-07
+
+### Changed
+
+- Bump `google-auth` from 2.6.0 to 2.17.2
+- Bump `websocket-client` from 1.3.1 to 1.5.1
+- Bump `urllib3` from 1.26.8 to 1.26.15
+
 ## [1.8.3] - 2023-04-06
 
 ### Fixed
@@ -322,7 +330,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.3...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.4...HEAD
+
+[1.8.4]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.3...v1.8.4
 
 [1.8.3]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.2...v1.8.3
 
