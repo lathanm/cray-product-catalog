@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Bump `google-auth` from 2.6.0 to 2.17.2
+- Bump `websocket-client` from 1.3.1 to 1.5.1.
 
 ## [1.8.3] - 2023-04-06
 
