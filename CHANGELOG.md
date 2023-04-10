@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.5] - 2023-04-10
+
+### Changed
+
+- Bump `charset-normalizer` from 2.0.12 to 3.1.0.
+- Bump `attrs` from 21.4.0 to 22.2.0.
+- Bump `pyrsistent` from 0.18.1 to 0.19.3.
+
 ## [1.8.4] - 2023-04-07
 
 ### Changed
@@ -330,7 +338,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.4...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.5...HEAD
+
+[1.8.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.4...v1.8.5
 
 [1.8.4]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.3...v1.8.4
 
