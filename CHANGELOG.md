@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `charset-normalizer` from 2.0.12 to 3.1.0.
+
 ## [1.8.4] - 2023-04-07
 
 ### Changed
