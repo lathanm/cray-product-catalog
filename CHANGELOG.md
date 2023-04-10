@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bump `charset-normalizer` from 2.0.12 to 3.1.0.
 - Bump `attrs` from 21.4.0 to 22.2.0.
+- Bump `pyrsistent` from 0.18.1 to 0.19.3.
 
 ## [1.8.4] - 2023-04-07
 
