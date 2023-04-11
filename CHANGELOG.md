@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bump `jsonschema` from 4.4.0 to 4.17.3
 - Bump `kubernetes` from 23.3.0 to 26.1.0
+- Bump `certifi` from 2021.10.8 to 2022.12.7
 
 ## [1.8.5] - 2023-04-11
 
