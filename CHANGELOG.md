@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - dependabot: Bump `certifi` from 2021.10.8 to 2022.12.7
 - dependabot: Bump `oauthlib` from 3.2.0 to 3.2.2
 - dependabot: Bump `rsa` from 4.8 to 4.9
+- dependabot: Bump `idna` from 3.3 to 3.4
 
 ## [1.8.5] - 2023-04-11
 
