@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.6] - 2023-04-24
+
 ### Changed
 
 - dependabot: Bump `jsonschema` from 4.4.0 to 4.17.3
@@ -350,7 +352,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.5...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.6...HEAD
+
+[1.8.6]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.5...v1.8.6
 
 [1.8.5]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.4...v1.8.5
 
