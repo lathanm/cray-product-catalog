@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - dependabot: Bump `rsa` from 4.8 to 4.9
 - dependabot: Bump `idna` from 3.3 to 3.4
 - dependabot: Bump `cachetools` from 5.0.0 to 5.3.0
+- dependabot: Bump `google-auth` from 2.17.2 to 2.17.3
 
 ## [1.8.5] - 2023-04-11
 
