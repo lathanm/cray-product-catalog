@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.7] - 2023-05-08
+
+### Changed
+
+- dependabot: Bump `pyasn1-modules` from 0.2.8 to 0.3.0
+- dependabot: Bump `pyasn1` from 0.4.8 to 0.5.0
+- dependabot: Bump `attrs` from 22.2.0 to 23.1.0
+- dependabot: Bump `requests` from 2.28.2 to 2.30.0
+- dependabot: Bump `certifi` from 2022.12.7 to 2023.5.7
+
 ## [1.8.6] - 2023-04-24
 
 ### Changed
@@ -352,7 +362,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.6...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.7...HEAD
+
+[1.8.7]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.6...v1.8.7
 
 [1.8.6]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.5...v1.8.6
 
