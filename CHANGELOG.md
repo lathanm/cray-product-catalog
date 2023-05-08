@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - dependabot: Bump `pyasn1-modules` from 0.2.8 to 0.3.0
 - dependabot: Bump `pyasn1` from 0.4.8 to 0.5.0
 - dependabot: Bump `attrs` from 22.2.0 to 23.1.0
+- dependabot: Bump `requests` from 2.28.2 to 2.30.0
 
 ## [1.8.6] - 2023-04-24
 
