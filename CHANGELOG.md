@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.8] - 2023-05-31
+
+### Changed
+
+- dependabot: Bump `websocket-client` from 1.5.1 to 1.5.2
+- CASM-4224: Improve logging for [`catalog_update.py`](cray_product_catalog/catalog_update.py) for use with IUF.
+
 ## [1.8.7] - 2023-05-08
 
 ### Changed
@@ -362,7 +369,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change default reviewers to CMS-core-product-support
 
-[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.7...HEAD
+[Unreleased]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.8...HEAD
+
+[1.8.8]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.7...v1.8.8
 
 [1.8.7]: https://github.com/Cray-HPE/cray-product-catalog/compare/v1.8.6...v1.8.7
 
