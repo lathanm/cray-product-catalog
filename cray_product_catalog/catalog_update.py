@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2020-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2020-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -74,8 +74,8 @@ LOGGER = logging.getLogger(__name__)
 
 def validate_schema(data):
     """ Validate data against the schema. """
-    LOGGER.info(
-        "Validating data against schema because VALIDATE_SCHEMA was set."
+    LOGGER.debug(
+        "Validating data against schema because VALIDATE_SCHEMA was set"
     )
     try:
         validate(data)
@@ -86,14 +86,14 @@ def validate_schema(data):
 
 def read_yaml_content(yaml_file):
     """ Read and return the raw content contained in the `yaml_file`. """
-    LOGGER.info("Retrieving content from %s", yaml_file)
+    LOGGER.debug("Retrieving content from %s", yaml_file)
     with open(yaml_file) as yfile:
         return yaml.safe_load(yfile)
 
 
 def read_yaml_content_string(yaml_string):
     """ Read and return the raw content contained in the `yaml_string` string. """
-    LOGGER.info("Retrieving raw content specified as a string")
+    LOGGER.debug("Retrieving raw content specified as a string")
     return yaml.safe_load(yaml_string)
 
 
@@ -157,7 +157,7 @@ def update_config_map(data, name, namespace):
         # exist yet
         attempt += 1
         sleepy_time = random.randint(1, 3)
-        LOGGER.info("Resting %ss before reading ConfigMap", sleepy_time)
+        LOGGER.debug("Resting %ss before reading ConfigMap", sleepy_time)
         time.sleep(sleepy_time)
 
         # Read in the config map
@@ -168,7 +168,7 @@ def update_config_map(data, name, namespace):
 
             # Config map doesn't exist yet
             if e.status == ERR_NOT_FOUND:
-                LOGGER.warning("ConfigMap %s/%s doesn't exist, attempting again.", namespace, name)
+                LOGGER.warning("ConfigMap %s/%s doesn't exist, attempting again", namespace, name)
                 continue
             else:
                 raise  # unrecoverable
@@ -195,14 +195,14 @@ def update_config_map(data, name, namespace):
                         raise SystemExit(1)
                     elif SET_ACTIVE_VERSION:
                         if current_version_is_active(product_data):
-                            LOGGER.info("ConfigMap data updates exist and desired version is active; Exiting.")
+                            LOGGER.debug("ConfigMap data updates exist and desired version is active; Exiting")
                             break
                     elif REMOVE_ACTIVE_FIELD:
                         if not active_field_exists(product_data):
-                            LOGGER.info("ConfigMap data updates exist and 'active' field has been cleared; Exiting.")
+                            LOGGER.debug("ConfigMap data updates exist and 'active' field has been cleared; Exiting")
                             break
                     else:
-                        LOGGER.info("ConfigMap data updates exist; Exiting.")
+                        LOGGER.debug("ConfigMap data updates exist; Exiting")
                         break
 
         # Patch the config map if needed
@@ -214,7 +214,7 @@ def update_config_map(data, name, namespace):
         config_map_data[PRODUCT] = yaml.safe_dump(
             product_data, default_flow_style=False
         )
-        LOGGER.info("ConfigMap update attempt=%s", attempt)
+        LOGGER.debug("ConfigMap update attempt=%s", attempt)
         try:
             new_config_map = V1ConfigMap(data=config_map_data)
             new_config_map.metadata = V1ObjectMeta(
@@ -242,19 +242,19 @@ def main():
 
     if SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD:
         LOGGER.error(
-            "SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD cannot both be set."
+            "SET_ACTIVE_VERSION and REMOVE_ACTIVE_FIELD cannot both be set"
         )
         raise SystemExit(1)
 
     elif SET_ACTIVE_VERSION:
         LOGGER.info(
-            "Setting %s:%s to active because SET_ACTIVE_VERSION was set.",
+            "Setting %s:%s to active because SET_ACTIVE_VERSION was set",
             PRODUCT, PRODUCT_VERSION
         )
 
     elif REMOVE_ACTIVE_FIELD:
         LOGGER.info(
-            "Product %s will have 'active' value cleared because REMOVE_ACTIVE_FIELD was set.", PRODUCT
+            "Product %s will have 'active' value cleared because REMOVE_ACTIVE_FIELD was set", PRODUCT
         )
 
     load_k8s()
@@ -265,7 +265,7 @@ def main():
     else:
         LOGGER.error(
             "One of the environment variables YAML_CONTENT_FILE or "
-            "YAML_CONTENT_STRING must be specified."
+            "YAML_CONTENT_STRING must be specified"
         )
         raise SystemExit(1)
     if VALIDATE_SCHEMA:
