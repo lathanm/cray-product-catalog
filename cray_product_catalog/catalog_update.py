@@ -65,7 +65,8 @@ YAML_CONTENT_STRING = os.environ.get("YAML_CONTENT_STRING", "").strip()   # see 
 SET_ACTIVE_VERSION = bool(os.environ.get("SET_ACTIVE_VERSION"))
 REMOVE_ACTIVE_FIELD = bool(os.environ.get("REMOVE_ACTIVE_FIELD"))
 VALIDATE_SCHEMA = bool(os.environ.get("VALIDATE_SCHEMA"))
-UPDATE_OVERWRITE = bool(os.environ.get("UPDATE_OVERWRITE"))
+# UPDATE_OVERWRITE = bool(os.environ.get("UPDATE_OVERWRITE"))
+UPDATE_OVERWRITE = True
 
 ERR_NOT_FOUND = 404
 ERR_CONFLICT = 409
